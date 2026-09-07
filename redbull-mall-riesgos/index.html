@@ -1,0 +1,865 @@
+<title>Bitácora de Riesgos Red Bull Racing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Big+Shoulders+Text:wght@500;700&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#eef1ec;
+    --paper-raised:#ffffff;
+    --ink:#17211f;
+    --ink-soft:#495650;
+    --ink-mute:#748079;
+    --petrol:#17515c;
+    --petrol-deep:#0f363d;
+    --wood:#8f5f34;
+    --wood-soft:#c99a63;
+    --line:#d7dbd2;
+    --line-strong:#b9c0b4;
+    --s-bajo:#3f7d5c;
+    --s-medio:#a67c1e;
+    --s-alto:#c1622a;
+    --s-critico:#9e3b3b;
+    --s-bajo-bg:#e3ede6;
+    --s-medio-bg:#f3e9d3;
+    --s-alto-bg:#f4ded0;
+    --s-critico-bg:#f2dcda;
+    --focus:#17515c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101a1a;
+      --paper-raised:#172423;
+      --ink:#e9ede8;
+      --ink-soft:#b7c2ba;
+      --ink-mute:#7f8d85;
+      --petrol:#5fbdb4;
+      --petrol-deep:#0c1f1f;
+      --wood:#d3a06a;
+      --wood-soft:#8f5f34;
+      --line:#2a3736;
+      --line-strong:#3c4a47;
+      --s-bajo:#6ab68a;
+      --s-medio:#d3a83f;
+      --s-alto:#e08a55;
+      --s-critico:#dd6f68;
+      --s-bajo-bg:#1a2c22;
+      --s-medio-bg:#2c2618;
+      --s-alto-bg:#2d2119;
+      --s-critico-bg:#2d1c1b;
+      --focus:#5fbdb4;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101a1a;
+    --paper-raised:#172423;
+    --ink:#e9ede8;
+    --ink-soft:#b7c2ba;
+    --ink-mute:#7f8d85;
+    --petrol:#5fbdb4;
+    --petrol-deep:#0c1f1f;
+    --wood:#d3a06a;
+    --wood-soft:#8f5f34;
+    --line:#2a3736;
+    --line-strong:#3c4a47;
+    --s-bajo:#6ab68a;
+    --s-medio:#d3a83f;
+    --s-alto:#e08a55;
+    --s-critico:#dd6f68;
+    --s-bajo-bg:#1a2c22;
+    --s-medio-bg:#2c2618;
+    --s-alto-bg:#2d2119;
+    --s-critico-bg:#2d1c1b;
+    --focus:#5fbdb4;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Archivo",system-ui,sans-serif;
+    line-height:1.5;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  a{color:var(--petrol);}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+  /* ---- Masthead ---- */
+  .masthead{
+    border-bottom:3px solid var(--ink);
+    padding-bottom:1.5rem;
+    margin-bottom:1.75rem;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1.5rem;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--petrol);
+    font-weight:600;
+    margin:0 0 .5rem;
+  }
+  .ot-tag{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--wood);
+    border:1px solid var(--wood);
+    border-radius:2px;
+    padding:.22rem .6rem;
+    margin:0 0 .9rem;
+  }
+  h1{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:clamp(2.2rem,5.5vw,3.4rem);
+    line-height:.94;
+    letter-spacing:.005em;
+    text-transform:uppercase;
+    margin:0;
+    text-wrap:balance;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    font-size:.98rem;
+    color:var(--ink-soft);
+    max-width:38ch;
+    margin:.6rem 0 0;
+  }
+  .masthead-meta{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;
+    color:var(--ink-mute);
+    text-align:right;
+    line-height:1.7;
+  }
+
+  .scope-note{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-left:4px solid var(--wood);
+    padding:.85rem 1.1rem;
+    margin-bottom:2rem;
+    font-size:.88rem;
+    color:var(--ink-soft);
+  }
+  .scope-note b{color:var(--ink);}
+
+  /* ---- Fact strip ---- */
+  .facts{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    margin-bottom:2.75rem;
+  }
+  .fact{
+    background:var(--paper-raised);
+    padding:1rem 1.1rem;
+  }
+  .fact-num{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:2.1rem;
+    line-height:1;
+    color:var(--petrol);
+    font-variant-numeric:tabular-nums;
+  }
+  .fact-num.crit{color:var(--s-critico);}
+  .fact-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-top:.3rem;
+  }
+
+  section{margin-bottom:3.25rem;}
+  h2{
+    font-family:"Big Shoulders Text",sans-serif;
+    font-weight:700;
+    font-size:1.5rem;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    margin:0 0 .3rem;
+    color:var(--ink);
+  }
+  .section-intro{
+    color:var(--ink-soft);
+    max-width:68ch;
+    font-size:.95rem;
+    margin:0 0 1.4rem;
+  }
+
+  /* ---- Scale legend ---- */
+  .scales{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.75rem;
+  }
+  @media (max-width:640px){ .scales{grid-template-columns:1fr;} }
+  .scale-title{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--wood);
+    font-weight:600;
+    margin-bottom:.6rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.4rem;
+  }
+  .scale-row{
+    display:grid;
+    grid-template-columns:1.6rem 1fr;
+    gap:.7rem;
+    padding:.4rem 0;
+    border-bottom:1px dotted var(--line);
+    font-size:.86rem;
+  }
+  .scale-row:last-child{border-bottom:none;}
+  .scale-n{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    color:var(--ink-mute);
+  }
+  .scale-row b{color:var(--ink);}
+
+  .level-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem;
+    margin-top:1.5rem;
+  }
+  .level-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.03em;
+    padding:.32rem .6rem;
+    border-radius:2px;
+  }
+  .level-chip::before{content:"";width:.55rem;height:.55rem;border-radius:50%;}
+  .lvl-bajo{background:var(--s-bajo-bg);color:var(--s-bajo);}
+  .lvl-bajo::before{background:var(--s-bajo);}
+  .lvl-medio{background:var(--s-medio-bg);color:var(--s-medio);}
+  .lvl-medio::before{background:var(--s-medio);}
+  .lvl-alto{background:var(--s-alto-bg);color:var(--s-alto);}
+  .lvl-alto::before{background:var(--s-alto);}
+  .lvl-critico{background:var(--s-critico-bg);color:var(--s-critico);}
+  .lvl-critico::before{background:var(--s-critico);}
+
+  /* ---- Matrix ---- */
+  .matrix-shell{
+    display:grid;
+    grid-template-columns:2.6rem 1fr;
+    gap:.6rem;
+  }
+  .matrix-yaxis{
+    display:grid;
+    grid-template-rows:repeat(5,1fr);
+    grid-template-columns: 1fr;
+    text-align:right;
+  }
+  .matrix-yaxis span{
+    display:flex;align-items:center;justify-content:flex-end;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;color:var(--ink-mute);
+    padding-right:.3rem;
+  }
+  .matrix-main{overflow-x:auto;}
+  .matrix-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(84px,1fr));
+    grid-template-rows:repeat(5,minmax(64px,1fr));
+    gap:2px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    min-width:460px;
+  }
+  .cell{
+    background:var(--paper-raised);
+    padding:.3rem;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:flex-start;
+    gap:.25rem;
+    position:relative;
+  }
+  .cell.z-bajo{background:var(--s-bajo-bg);}
+  .cell.z-medio{background:var(--s-medio-bg);}
+  .cell.z-alto{background:var(--s-alto-bg);}
+  .cell.z-critico{background:var(--s-critico-bg);}
+  .chip{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:.72rem;
+    line-height:1;
+    padding:.32rem .4rem;
+    border-radius:2px;
+    border:1px solid rgba(0,0,0,.12);
+    cursor:pointer;
+    background:var(--paper-raised);
+    color:var(--ink);
+    position:relative;
+  }
+  .chip:hover, .chip:focus-visible{
+    transform:translateY(-1px);
+    box-shadow:0 2px 0 rgba(0,0,0,.18);
+  }
+  .chip[data-lvl="bajo"]{color:var(--s-bajo);border-color:var(--s-bajo);}
+  .chip[data-lvl="medio"]{color:var(--s-medio);border-color:var(--s-medio);}
+  .chip[data-lvl="alto"]{color:var(--s-alto);border-color:var(--s-alto);}
+  .chip[data-lvl="critico"]{color:var(--s-critico);border-color:var(--s-critico);background:var(--s-critico);}
+  .chip[data-lvl="critico"]{color:var(--paper-raised);}
+  .chip .tip{
+    position:absolute;
+    bottom:calc(100% + 6px);
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Archivo",sans-serif;
+    font-weight:400;
+    font-size:.76rem;
+    padding:.4rem .6rem;
+    border-radius:3px;
+    width:max-content;
+    max-width:220px;
+    white-space:normal;
+    text-align:left;
+    line-height:1.35;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .1s ease;
+    z-index:5;
+  }
+  .chip:hover .tip, .chip:focus-visible .tip{opacity:1;}
+  .matrix-xaxis{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:repeat(5,minmax(84px,1fr));
+    min-width:460px;
+    margin-top:.35rem;
+  }
+  .matrix-xaxis span{
+    text-align:center;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    color:var(--ink-mute);
+  }
+  .axis-caption{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:center;
+    margin-top:.15rem;
+  }
+  .axis-caption-y{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    grid-column:1;
+    grid-row:1;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:center;
+    align-self:center;
+  }
+
+  /* ---- Filters ---- */
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-bottom:1.6rem;
+  }
+  .filter-btn{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.74rem;
+    letter-spacing:.03em;
+    padding:.4rem .8rem;
+    border-radius:2px;
+    border:1px solid var(--line-strong);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .filter-btn[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---- Phase groups ---- */
+  .phase{
+    margin-bottom:2.2rem;
+    border-top:2px solid var(--ink);
+    padding-top:1rem;
+  }
+  .phase-head{
+    display:flex;
+    align-items:baseline;
+    gap:.9rem;
+    flex-wrap:wrap;
+    margin-bottom:.3rem;
+  }
+  .phase-letter{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:2.6rem;
+    color:var(--wood);
+    line-height:1;
+  }
+  .phase-name{
+    font-family:"Big Shoulders Text",sans-serif;
+    font-weight:700;
+    font-size:1.2rem;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  .phase-desc{
+    color:var(--ink-soft);
+    font-size:.9rem;
+    max-width:60ch;
+    margin:0 0 1.1rem;
+  }
+
+  /* ---- Risk card ---- */
+  .risk{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-left:4px solid var(--line-strong);
+    padding:1rem 1.15rem;
+    margin-bottom:.7rem;
+    transition:background .15s ease;
+  }
+  .risk[data-lvl="bajo"]{border-left-color:var(--s-bajo);}
+  .risk[data-lvl="medio"]{border-left-color:var(--s-medio);}
+  .risk[data-lvl="alto"]{border-left-color:var(--s-alto);}
+  .risk[data-lvl="critico"]{border-left-color:var(--s-critico);}
+  .risk.pulse{background:var(--s-medio-bg);}
+  .risk.hidden{display:none;}
+
+  .risk-top{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:.6rem .8rem;
+    margin-bottom:.7rem;
+  }
+  .risk-id{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:.78rem;
+    color:var(--ink-mute);
+  }
+  .risk-title{
+    font-family:"Archivo",sans-serif;
+    font-weight:600;
+    font-size:1.02rem;
+    color:var(--ink);
+    flex:1 1 auto;
+    min-width:180px;
+  }
+  .risk-cat{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--wood);
+  }
+  .risk-pi{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.76rem;
+    color:var(--ink-mute);
+    font-variant-numeric:tabular-nums;
+  }
+  .pill{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:.22rem .55rem;
+    border-radius:2px;
+    font-weight:600;
+  }
+  .pill.bajo{background:var(--s-bajo-bg);color:var(--s-bajo);}
+  .pill.medio{background:var(--s-medio-bg);color:var(--s-medio);}
+  .pill.alto{background:var(--s-alto-bg);color:var(--s-alto);}
+  .pill.critico{background:var(--s-critico-bg);color:var(--s-critico);}
+
+  .risk-detail{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.8rem 1.4rem;
+  }
+  @media (max-width:600px){ .risk-detail{grid-template-columns:1fr;} }
+  .risk-field label{
+    display:block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.65rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-bottom:.2rem;
+  }
+  .risk-field p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--ink-soft);
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding-top:1.2rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    color:var(--ink-mute);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .chip, .risk{transition:none;}
+  }
+
+  /* ---- Print ---- */
+  @media print{
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"]{
+      --paper:#ffffff; --paper-raised:#ffffff;
+      --ink:#17211f; --ink-soft:#495650; --ink-mute:#748079;
+      --petrol:#17515c; --wood:#8f5f34;
+      --line:#d7dbd2; --line-strong:#b9c0b4;
+      --s-bajo:#3f7d5c; --s-medio:#a67c1e; --s-alto:#c1622a; --s-critico:#9e3b3b;
+      --s-bajo-bg:#e3ede6; --s-medio-bg:#f3e9d3; --s-alto-bg:#f4ded0; --s-critico-bg:#f2dcda;
+    }
+    @page{ size:A4; margin:14mm 12mm; }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body{ background:#fff; }
+    .wrap{ max-width:100%; padding:0; }
+    .filters{ display:none; }
+    .chip .tip{ display:none; }
+    .matrix-main{ overflow:visible; }
+    .matrix-grid, .matrix-xaxis{ min-width:0; }
+    .phase{ display:block !important; break-inside:avoid-page; }
+    .risk{ display:block !important; break-inside:avoid; }
+    .phase-head, h2{ break-after:avoid; }
+    section{ margin-bottom:1.6rem; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Proyecto · Activación de marca en mall</p>
+      <p class="ot-tag">OT 00606 — Red Bull Racing Mall Plaza Oeste</p>
+      <h1>Bitácora de<br>riesgos</h1>
+      <p class="masthead-sub">Fabricación, traslado, montaje y operación de la activación Oracle Red Bull Racing en Mall Plaza Oeste — piso antideslizante, bastidores perimetrales, arco de entrada, mueble gradería y coolers de producto.</p>
+    </div>
+    <div class="masthead-meta">
+      OT 00606
+    </div>
+  </div>
+
+  <div class="scope-note">
+    <b>Alcance de fabricación:</b> piso en goma antideslizante, bastidores perimetrales revestidos en tela PVC impresa, arco metálico revestido en foam de 4&nbsp;mm impreso en cámara plana (con semáforos decorativos de acrílico, sin electrónica), mueble tipo gradería con cooler baby integrado, y cooler slim mega con reposición de producto en el lugar. <b>Fuera de alcance:</b> la réplica del F1 y los 2 simuladores de carrera son provistos e instalados por un tercero — solo se evalúa el riesgo de coordinación con ellos, no su fabricación ni traslado.
+  </div>
+
+  <div class="facts" id="facts">
+    <div class="fact"><div class="fact-num">4</div><div class="fact-label">Semanas de activación</div></div>
+    <div class="fact"><div class="fact-num">5</div><div class="fact-label">Fases del proyecto</div></div>
+    <div class="fact"><div class="fact-num" id="fact-total">–</div><div class="fact-label">Riesgos identificados</div></div>
+    <div class="fact"><div class="fact-num crit" id="fact-critico">–</div><div class="fact-label">En nivel crítico</div></div>
+  </div>
+
+  <section>
+    <h2>Escalas de evaluación</h2>
+    <p class="section-intro">Cada riesgo se califica con probabilidad e impacto de 1 a 5. El producto de ambos define el nivel de riesgo y su color en la matriz.</p>
+    <div class="scales">
+      <div>
+        <p class="scale-title">Probabilidad</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Rara</b> — no se ha presentado en activaciones similares</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Improbable</b> — solo en circunstancias excepcionales</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Posible</b> — puede ocurrir en algún punto del proyecto</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Probable</b> — esperable en la mayoría de casos similares</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Casi certeza</b> — ocurre salvo control activo</span></div>
+      </div>
+      <div>
+        <p class="scale-title">Impacto</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Menor</b> — retoque estético, sin costo ni atraso</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Bajo</b> — reproceso puntual, atraso de horas</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Moderado</b> — atraso de 1–2 días, costo medio</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Mayor</b> — atrasa la apertura, daña equipo/estructura</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Crítico</b> — riesgo a personas o pérdida de la estructura</span></div>
+      </div>
+    </div>
+    <div class="level-legend">
+      <span class="level-chip lvl-bajo">Bajo · 1–4</span>
+      <span class="level-chip lvl-medio">Medio · 5–9</span>
+      <span class="level-chip lvl-alto">Alto · 10–14</span>
+      <span class="level-chip lvl-critico">Crítico · 15–25</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Matriz probabilidad × impacto</h2>
+    <p class="section-intro">Cada celda ubica los riesgos según su calificación. Toca o pasa el cursor sobre un código para ver el riesgo; toca de nuevo para saltar a su ficha completa más abajo.</p>
+    <div class="matrix-shell">
+      <div class="axis-caption-y">Impacto ↑</div>
+      <div class="matrix-main">
+        <div class="matrix-grid" id="matrix"></div>
+        <div class="matrix-xaxis" id="matrix-x"></div>
+        <p class="axis-caption">Probabilidad →</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Registro detallado</h2>
+    <p class="section-intro">19 riesgos agrupados por fase del proyecto. Filtra por nivel para priorizar la revisión.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por nivel de riesgo">
+      <button class="filter-btn" data-filter="todos" aria-pressed="true">Todos</button>
+      <button class="filter-btn" data-filter="critico" aria-pressed="false">Crítico</button>
+      <button class="filter-btn" data-filter="alto" aria-pressed="false">Alto</button>
+      <button class="filter-btn" data-filter="medio" aria-pressed="false">Medio</button>
+      <button class="filter-btn" data-filter="bajo" aria-pressed="false">Bajo</button>
+    </div>
+    <div id="phases"></div>
+  </section>
+
+  <footer>
+    <span>OT 00606 · Red Bull Racing — Mall Plaza Oeste</span>
+    <span>Matriz P×I · activación de ~4 semanas</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var PHASES = {
+    A: { nombre:'Fabricación en taller', desc:'Confección del piso, bastidores con tela PVC impresa, arco metálico revestido en foam y mueble gradería, con el conjunto aún en fábrica.' },
+    B: { nombre:'Traslado al mall', desc:'Transporte de las piezas fabricadas hasta Mall Plaza Oeste.' },
+    C: { nombre:'Montaje en sitio', desc:'Ensamblaje de bastidores y arco directamente en el mall, coordinado con la administración y con el proveedor del F1 y los simuladores.' },
+    D: { nombre:'Operación (~4 semanas)', desc:'Activación continua abierta al público, con reposición periódica de producto en los coolers.' },
+    E: { nombre:'Desmontaje', desc:'Retiro de la instalación al cierre de la activación, dentro de la ventana de tiempo asignada por el mall.' }
+  };
+
+  var RISKS = [
+    {id:'A2', fase:'A', cat:'Estructural', riesgo:'Arco metálico sin cálculo estructural adecuado', p:3, i:5,
+      causa:'El diseño del arco revestido en foam no valida cargas de manipulación ni corrientes de aire propias de un mall.',
+      consecuencia:'Volcamiento o daño del arco con riesgo directo para el público que circula bajo o cerca de él.',
+      mitigacion:'Cálculo estructural con ingeniero, base autoportante con contrapesos y prueba de estabilidad antes de despachar a montaje.',
+      resp:'Ingeniería / Jefe de obra'},
+    {id:'C1', fase:'C', cat:'Seguridad pública', riesgo:'Montaje con público circulando cerca del área de obra', p:3, i:5,
+      causa:'Las ventanas de montaje son ajustadas y pueden traslaparse con horario de apertura o cierre del mall.',
+      consecuencia:'Accidente a un cliente del mall por caída de herramientas, piezas o materiales durante el armado.',
+      mitigacion:'Perimetrar el área de montaje, señalética de obra en proceso y coordinar el armado en horario de mall cerrado.',
+      resp:'Supervisor de montaje'},
+    {id:'C3', fase:'C', cat:'Estructural', riesgo:'Anclaje del arco insuficiente por restricción de perforar el piso del mall', p:3, i:5,
+      causa:'Los malls generalmente prohíben perforar su piso, obligando a usar solo contrapesos.',
+      consecuencia:'Arco inestable con riesgo de volcamiento sobre público cercano.',
+      mitigacion:'Diseñar el arco con base autoportante y contrapesos certificados desde el taller, validado previamente con la administración del mall.',
+      resp:'Ingeniería'},
+    {id:'D3', fase:'D', cat:'Seguridad pública', riesgo:'Menores interactuando sin supervisión con el mueble gradería', p:3, i:5,
+      causa:'Las latas gigantes de Red Bull son visualmente atractivas para niños en una zona familiar de alto tránsito.',
+      consecuencia:'Caída de la estructura o del cooler baby integrado sobre un menor.',
+      mitigacion:'Fijación estructural robusta y anclaje al suelo de todo elemento decorativo, más personal de piso supervisando el área permanentemente.',
+      resp:'Supervisor de punto'},
+    {id:'A3', fase:'A', cat:'Cronograma', riesgo:'Atraso en fabricación por volumen de piezas impresas', p:3, i:4,
+      causa:'Gran cantidad de medidas distintas de bastidores y paneles (desde 88×88 hasta 1085 cm) compitiendo por tiempo de imprenta y tapizado.',
+      consecuencia:'Retraso respecto a la fecha de montaje comprometida con el mall.',
+      mitigacion:'Cronograma de producción por lote con holgura, priorizando las piezas críticas (arco y bastidores perimetrales).',
+      resp:'Jefe de proyecto'},
+    {id:'B2', fase:'B', cat:'Logística mall', riesgo:'Restricción de horario o acceso de carga no coordinada', p:3, i:4,
+      causa:'Los malls exigen ventanas horarias específicas —generalmente nocturnas— y accesos de carga determinados.',
+      consecuencia:'Imposibilidad de ingresar materiales a tiempo, con riesgo de multas o reprogramación de la apertura.',
+      mitigacion:'Confirmar con la administración del mall el horario, la ruta de acceso y los permisos de carga con anticipación.',
+      resp:'Jefe de proyecto'},
+    {id:'A1', fase:'A', cat:'Impresión', riesgo:'Desajuste de color respecto al manual de marca', p:3, i:3,
+      causa:'Falta de perfil de color calibrado o de prueba de impresión aprobada antes de producir el lote completo.',
+      consecuencia:'Rechazo de la marca Red Bull Racing y reimpresión completa de piezas, con atraso asociado.',
+      mitigacion:'Prueba de color e impresión aprobada por el cliente antes de imprimir el lote definitivo.',
+      resp:'Jefe de producción'},
+    {id:'B1', fase:'B', cat:'Transporte', riesgo:'Daño de gráfica impresa por manipulación en el traslado', p:3, i:3,
+      causa:'El foam de 4 mm es rígido pero frágil ante golpes, y la tela PVC puede rasgarse si se enrolla mal.',
+      consecuencia:'Necesidad de reimprimir piezas dañadas, atrasando el montaje.',
+      mitigacion:'Proteger cada pieza con mantas o cartón, transportar en posición vertical cuando corresponda y aplicar checklist de embalaje.',
+      resp:'Logística'},
+    {id:'C2', fase:'C', cat:'Eléctrico', riesgo:'Puntos eléctricos del mall no coinciden con lo requerido', p:3, i:3,
+      causa:'Falta de coordinación técnica previa entre el equipo de montaje y la administración del mall sobre ubicación y capacidad de los puntos de energía.',
+      consecuencia:'Imposibilidad de energizar coolers, iluminación o mobiliario el día de apertura.',
+      mitigacion:'Enviar ficha técnica de requerimiento eléctrico —potencia, cantidad y ubicación de puntos— al mall con anticipación y confirmarla por escrito.',
+      resp:'Jefe de proyecto'},
+    {id:'D1', fase:'D', cat:'Piso', riesgo:'Desgaste o desprendimiento del piso antideslizante', p:3, i:3,
+      causa:'Miles de pisadas diarias durante 4 semanas en un mall de alto flujo de público.',
+      consecuencia:'Levantamiento de bordes, riesgo de tropiezo e imagen deteriorada.',
+      mitigacion:'Instalación con adhesivo de uso intensivo y revisión semanal con plan de mantención en el lugar.',
+      resp:'Supervisor de punto'},
+    {id:'A5', fase:'A', cat:'Mueble', riesgo:'Estructura de la gradería no soporta el peso del cooler baby', p:2, i:4,
+      causa:'El diseño del mueble no contempla la carga adicional del cooler lleno de producto.',
+      consecuencia:'Colapso o deformación del mueble una vez instalado en el mall, con público alrededor.',
+      mitigacion:'Verificar la carga máxima del cooler baby lleno y realizar una prueba de carga en taller antes de despachar.',
+      resp:'Jefe de obra'},
+    {id:'B3', fase:'B', cat:'Dimensiones', riesgo:'Piezas grandes no caben por accesos del mall', p:2, i:4,
+      causa:'No se validaron las dimensiones de acceso del mall —puertas, pasillos, altura— contra el tamaño de piezas como el bastidor de 1085 cm.',
+      consecuencia:'Imposibilidad de ingresar la pieza, obligando a modificar el diseño de urgencia.',
+      mitigacion:'Medir los accesos del mall antes de fabricar piezas grandes y diseñarlas en módulos desmontables cuando sea necesario.',
+      resp:'Jefe de obra'},
+    {id:'C4', fase:'C', cat:'Coordinación', riesgo:'Interferencia de montaje con el proveedor del F1 y los simuladores', p:3, i:2,
+      causa:'Falta de cronograma conjunto entre ambos proveedores trabajando en el mismo espacio.',
+      consecuencia:'Retrasos cruzados o daño accidental a equipos ajenos, con descoordinación el día de apertura.',
+      mitigacion:'Definir un cronograma de montaje compartido con el otro proveedor, fijando secuencia y zona de responsabilidad de cada uno.',
+      resp:'Jefe de proyecto'},
+    {id:'D2', fase:'D', cat:'Reposición', riesgo:'Falla en la reposición oportuna del cooler slim mega', p:3, i:2,
+      causa:'Logística de reposición de producto no calendarizada o sin stock de respaldo cercano.',
+      consecuencia:'Cooler vacío en horario de alta afluencia, afectando la experiencia de marca.',
+      mitigacion:'Calendario fijo de reposición con responsable asignado y stock de respaldo en bodega cercana al mall.',
+      resp:'Logística / Promotoras'},
+    {id:'D4', fase:'D', cat:'Mantención', riesgo:'Desgaste de la gráfica por manipulación diaria del público', p:3, i:2,
+      causa:'Exposición prolongada de la tela PVC y el foam a que el público se apoye o los toque durante 4 semanas.',
+      consecuencia:'Imagen de marca deteriorada antes de terminar la activación.',
+      mitigacion:'Revisión visual periódica y kit de piezas de repuesto o reimpresión rápida disponible.',
+      resp:'Jefe de proyecto'},
+    {id:'E1', fase:'E', cat:'Cronograma', riesgo:'Ventana de desmontaje insuficiente al cierre', p:3, i:2,
+      causa:'El mall exige liberar el espacio en un plazo acotado, similar a la ventana de montaje.',
+      consecuencia:'Multas por incumplimiento del plazo o daño a piezas por desarmar apresuradamente.',
+      mitigacion:'Definir un plan de desmontaje por etapas con anticipación y reservar cuadrilla suficiente para esa fecha.',
+      resp:'Jefe de proyecto'},
+    {id:'A4', fase:'A', cat:'Terminaciones', riesgo:'Tela PVC con arrugas o mala tensión sobre bastidores', p:2, i:2,
+      causa:'Tapizado apresurado o bastidor con tolerancias fuera de medida.',
+      consecuencia:'Imagen poco profesional que obliga a reprocesar la pieza.',
+      mitigacion:'Control de calidad del tensado antes de despachar cada bastidor.',
+      resp:'Jefe de producción'},
+    {id:'D5', fase:'D', cat:'Cadena de frío', riesgo:'Falla de refrigeración por corte eléctrico del mall', p:2, i:2,
+      causa:'Dependencia total del suministro eléctrico del mall, sin respaldo propio de energía.',
+      consecuencia:'Pérdida de temperatura del producto en los coolers, afectando la imagen de marca.',
+      mitigacion:'Confirmar con el mall el respaldo eléctrico de la zona y definir un protocolo de reposición rápida ante un corte.',
+      resp:'Logística'},
+    {id:'E2', fase:'E', cat:'Desmontaje', riesgo:'Daño a piezas reutilizables al desarmar', p:2, i:2,
+      causa:'Desmontaje apresurado sin protocolo de cuidado de piezas destinadas a reutilizarse en otro proyecto.',
+      consecuencia:'Pérdida de valor de los activos fabricados y costo de reposición para futuras activaciones.',
+      mitigacion:'Aplicar un protocolo de desmontaje inverso al de montaje, con el mismo embalaje usado en el traslado de ida.',
+      resp:'Jefe de obra'}
+  ];
+
+  function level(score){
+    if(score>=15) return 'critico';
+    if(score>=10) return 'alto';
+    if(score>=5) return 'medio';
+    return 'bajo';
+  }
+  var LABEL = {bajo:'Bajo', medio:'Medio', alto:'Alto', critico:'Crítico'};
+
+  RISKS.forEach(function(r){ r.score = r.p*r.i; r.lvl = level(r.score); });
+
+  // facts
+  document.getElementById('fact-total').textContent = RISKS.length;
+  document.getElementById('fact-critico').textContent = RISKS.filter(function(r){return r.lvl==='critico';}).length;
+
+  // matrix (impact 5 at top row .. 1 at bottom)
+  var grid = document.getElementById('matrix');
+  for(var irow=5; irow>=1; irow--){
+    for(var pcol=1; pcol<=5; pcol++){
+      var cellRisks = RISKS.filter(function(r){return r.i===irow && r.p===pcol;});
+      var cellLvl = level(pcol*irow);
+      var cell = document.createElement('div');
+      cell.className = 'cell z-'+cellLvl;
+      cellRisks.forEach(function(r){
+        var chip = document.createElement('button');
+        chip.className = 'chip';
+        chip.type = 'button';
+        chip.setAttribute('data-lvl', r.lvl);
+        chip.setAttribute('data-target', r.id);
+        chip.innerHTML = r.id + '<span class="tip">'+r.riesgo+'</span>';
+        chip.addEventListener('click', function(){
+          var id = this.getAttribute('data-target');
+          var card = document.querySelector('[data-card="'+id+'"]');
+          if(card){
+            card.scrollIntoView({behavior:'smooth', block:'center'});
+            card.classList.add('pulse');
+            setTimeout(function(){ card.classList.remove('pulse'); }, 1400);
+          }
+        });
+        cell.appendChild(chip);
+      });
+      grid.appendChild(cell);
+    }
+  }
+  var xaxis = document.getElementById('matrix-x');
+  for(var x=1;x<=5;x++){
+    var s = document.createElement('span');
+    s.textContent = x;
+    xaxis.appendChild(s);
+  }
+
+  // register
+  var phasesEl = document.getElementById('phases');
+  ['A','B','C','D','E'].forEach(function(key){
+    var meta = PHASES[key];
+    var group = RISKS.filter(function(r){return r.fase===key;}).sort(function(a,b){return b.score-a.score;});
+    var phaseDiv = document.createElement('div');
+    phaseDiv.className = 'phase';
+    phaseDiv.innerHTML =
+      '<div class="phase-head"><span class="phase-letter">'+key+'</span><span class="phase-name">'+meta.nombre+'</span></div>'+
+      '<p class="phase-desc">'+meta.desc+'</p>';
+    group.forEach(function(r){
+      var card = document.createElement('article');
+      card.className = 'risk';
+      card.setAttribute('data-lvl', r.lvl);
+      card.setAttribute('data-card', r.id);
+      card.innerHTML =
+        '<div class="risk-top">'+
+          '<span class="risk-id">'+r.id+'</span>'+
+          '<span class="risk-title">'+r.riesgo+'</span>'+
+          '<span class="risk-cat">'+r.cat+'</span>'+
+          '<span class="pill '+r.lvl+'">'+LABEL[r.lvl]+'</span>'+
+          '<span class="risk-pi">P'+r.p+' · I'+r.i+' · '+r.score+'</span>'+
+        '</div>'+
+        '<div class="risk-detail">'+
+          '<div class="risk-field"><label>Causa</label><p>'+r.causa+'</p></div>'+
+          '<div class="risk-field"><label>Consecuencia</label><p>'+r.consecuencia+'</p></div>'+
+          '<div class="risk-field"><label>Mitigación</label><p>'+r.mitigacion+'</p></div>'+
+          '<div class="risk-field"><label>Responsable</label><p>'+r.resp+'</p></div>'+
+        '</div>';
+      phaseDiv.appendChild(card);
+    });
+    phasesEl.appendChild(phaseDiv);
+  });
+
+  // filters
+  var buttons = document.querySelectorAll('.filter-btn');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      this.setAttribute('aria-pressed','true');
+      var f = this.getAttribute('data-filter');
+      document.querySelectorAll('.risk').forEach(function(card){
+        var show = (f==='todos') || (card.getAttribute('data-lvl')===f);
+        card.classList.toggle('hidden', !show);
+      });
+      document.querySelectorAll('.phase').forEach(function(ph){
+        var anyVisible = ph.querySelectorAll('.risk:not(.hidden)').length>0;
+        ph.style.display = anyVisible ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
