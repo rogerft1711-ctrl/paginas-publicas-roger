@@ -235,13 +235,13 @@
   <div class="masthead">
     <p class="eyebrow">Procedimiento interno · Control de Calidad</p>
     <h1>Manual de<br>bitácoras de riesgo</h1>
-    <p class="masthead-sub">Guía paso a paso para construir una matriz de riesgos antes de fabricar, trasladar o montar cualquier proyecto. Pensada para que cualquier persona del equipo —no solo quien la redacta— pueda armar o revisar una.</p>
+    <p class="masthead-sub">Guía paso a paso para construir una matriz de riesgos, sea de un proyecto puntual o de un área de producción. Pensada para que cualquier persona del equipo —no solo quien la redacta— pueda armar o revisar una.</p>
   </div>
 
   <section>
     <div class="intro-box">
       <p><strong>¿Qué es una bitácora de riesgos?</strong> Es un documento que anticipa, antes de que ocurran, los problemas que puede tener un proyecto —desde que se fabrica hasta que se opera en terreno— para poder prevenirlos o controlarlos en vez de reaccionar cuando ya pasaron.</p>
-      <p><strong>¿Cuándo se hace?</strong> Siempre que un proyecto combine fabricación, traslado y montaje en un lugar que la empresa no controla del todo: una carretera, un mall, la tienda de un cliente. Se hace <strong>antes</strong> de empezar a construir, no cuando ya está en curso.</p>
+      <p><strong>¿Cuándo se hace?</strong> En dos situaciones. Para un <strong>proyecto puntual</strong> que combine fabricación, traslado y montaje en un lugar que la empresa no controla del todo —una carretera, un mall, la tienda de un cliente—; ahí se hace <strong>antes</strong> de empezar a construir. Y para un <strong>área o taller</strong>, cuando se quieren mapear los riesgos que se repiten proyecto tras proyecto (madera, metalurgia, pintura); esa se revisa periódicamente, no una sola vez.</p>
     </div>
   </section>
 
@@ -294,8 +294,10 @@
   <div class="step">
     <div class="step-num">2</div>
     <div class="step-body">
-      <p class="step-title">Divide el proyecto en fases</p>
-      <p>Ordena el ciclo de vida completo del proyecto en etapas claras. Las fases no son siempre las mismas: dependen de cómo se ejecuta realmente ese proyecto. Compara estos dos casos reales:</p>
+      <p class="step-title">Elige el eje: por fase o por área</p>
+      <p>Antes de listar riesgos, decide cómo vas a agruparlos. Hay dos formas válidas y la elección depende de qué quieres evaluar:</p>
+
+      <p><strong>Por fase</strong> — cuando evalúas <em>un proyecto puntual</em> de principio a fin. Ordenas el ciclo de vida en etapas y buscas riesgos en cada una. Las fases dependen de cómo se ejecuta ese proyecto en particular:</p>
       <div class="table-scroll">
         <table class="phase-compare">
           <tr><th>Carro Kunstmann (móvil)</th><th>Red Bull Racing (mall)</th></tr>
@@ -306,15 +308,28 @@
           <tr><td>—</td><td>E. Desmontaje</td></tr>
         </table>
       </div>
-      <p style="margin-top:.6rem">El primero es un traslado único con instalación breve; el segundo es una activación que opera varias semanas y además debe desarmarse. Por eso el segundo tiene dos fases más.</p>
+      <p style="margin-top:.6rem">El primero es un traslado único con instalación breve; el segundo opera varias semanas y además debe desarmarse. Por eso el segundo tiene dos fases más.</p>
+
+      <p style="margin-top:1rem"><strong>Por área</strong> — cuando evalúas <em>los riesgos recurrentes de un taller o departamento</em>, independientes de un proyecto específico. Aquí las áreas no se inventan: son las mismas que ya existen en el tablero de Producción y Control de Calidad de Monday.</p>
+      <div class="example">
+        <label>Áreas según Monday (columna Departamento)</label>
+        <p>Comercial · Diseño industrial · Agencia (diseño gráfico) · Impresión POP (camaplana) · Impresión y emplaque (plotter rollo a rollo) · Madera · Metalurgia · Láser · Acrílico · Pintura · Electricidad · Embalaje · Logística · Corporativo</p>
+      </div>
+      <p style="margin-top:.6rem">Usar los mismos nombres que Monday no es un detalle menor: permite cruzar la bitácora con las OT y con el control de calidad que ya se registra por departamento.</p>
     </div>
   </div>
 
   <div class="step">
     <div class="step-num">3</div>
     <div class="step-body">
-      <p class="step-title">Por cada fase, identifica qué podría salir mal</p>
-      <p>Recorre mentalmente cada elemento de esa fase —cada material, cada tarea, cada punto de contacto con terceros— y pregúntate qué podría fallar. Para no dejar categorías fuera, usa esta lista como punto de partida:</p>
+      <p class="step-title">Parte por lo que ya falló, no por lo que imaginas</p>
+      <p>El error más común es sentarse a inventar riesgos en una reunión. Antes de eso, revisa lo que <strong>ya ha fallado de verdad</strong> — la empresa lleva ese registro sin darse cuenta:</p>
+      <div class="example">
+        <label>Dónde está el historial real</label>
+        <p>En Monday, el tablero de <strong>Producción</strong> registra <em>Motivo de bloqueo</em> (falta material, incidencia en producción) y <em>Motivo de HH Extra</em> (ausencia de personal, proyecto especial, retraso de material, retraso de plano, mala planificación). En <strong>Control de Calidad</strong> están los subelementos rechazados y los que requirieron retrabajo, con su costo y tiempo.</p>
+      </div>
+      <p style="margin-top:.6rem">Cada una de esas entradas es un riesgo que ya ocurrió: tiene causa real, consecuencia medida y frecuencia conocida. Un riesgo sacado del historial pesa mucho más que uno imaginado.</p>
+      <p style="margin-top:.9rem">Recién después de agotar el historial, completa con lo que aún no ha pasado pero podría. Usa esta lista para no dejar tipos de riesgo fuera:</p>
       <ul class="checklist">
         <li>Estructural — ¿algo puede caerse, ceder o volcarse?</li>
         <li>Eléctrico — ¿hay cortocircuito, falta de suministro o de puntos suficientes?</li>
@@ -327,6 +342,10 @@
         <li>Producto / cadena de frío — ¿hay reposición o refrigeración involucrada?</li>
         <li>Normativo / legal — ¿hay permisos, certificaciones o restricciones del lugar?</li>
       </ul>
+      <div class="lesson" style="background:var(--paper-raised);border-color:var(--wood);border-left-color:var(--wood)">
+        <label style="color:var(--wood)">No confundas área con categoría</label>
+        <p>Son dos cosas distintas y conviven en la misma bitácora. El <strong>área</strong> dice <em>quién ejecuta</em> el trabajo (Madera, Metalurgia, Pintura). La <strong>categoría</strong> dice <em>de qué tipo es el riesgo</em> (estructural, cronograma, seguridad). Una bitácora del área Madera puede tener riesgos de categoría cronograma, calidad y seguridad al mismo tiempo.</p>
+      </div>
     </div>
   </div>
 
@@ -338,6 +357,7 @@
       <div class="table-scroll">
         <table class="fieldtable">
           <tr><th>Campo</th><th>Qué responde</th></tr>
+          <tr><td><b>Fase o Área</b></td><td>Dónde se agrupa, según el eje elegido en el paso 2</td></tr>
           <tr><td><b>Categoría</b></td><td>De qué tipo es (usa la lista del paso 3)</td></tr>
           <tr><td><b>Riesgo</b></td><td>Nombre corto y concreto del problema</td></tr>
           <tr><td><b>Causa</b></td><td>Por qué podría llegar a pasar</td></tr>
@@ -408,8 +428,8 @@
       <h2>Checklist de una página</h2>
       <ol class="recap-list">
         <li><b>1</b> Define qué es tuyo y qué es de terceros</li>
-        <li><b>2</b> Divide el proyecto en fases reales</li>
-        <li><b>3</b> Identifica riesgos por categoría, fase por fase</li>
+        <li><b>2</b> Elige el eje: por fase (proyecto puntual) o por área (taller recurrente)</li>
+        <li><b>3</b> Parte del historial real en Monday, luego completa por categoría</li>
         <li><b>4</b> Registra causa, consecuencia, mitigación y responsable</li>
         <li><b>5</b> Califica probabilidad e impacto según los controles que ya existen</li>
         <li><b>6</b> Calcula el nivel (P × I) y ubícalo en su banda</li>
