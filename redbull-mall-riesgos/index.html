@@ -584,7 +584,7 @@
   </div>
 
   <div class="facts" id="facts">
-    <div class="fact"><div class="fact-num">4</div><div class="fact-label">Semanas de activación</div></div>
+    <div class="fact"><div class="fact-num">2</div><div class="fact-label">Semanas de activación (máx.)</div></div>
     <div class="fact"><div class="fact-num">5</div><div class="fact-label">Fases del proyecto</div></div>
     <div class="fact"><div class="fact-num" id="fact-total">–</div><div class="fact-label">Riesgos identificados</div></div>
     <div class="fact"><div class="fact-num crit" id="fact-critico">–</div><div class="fact-label">En nivel crítico</div></div>
@@ -647,7 +647,7 @@
 
   <footer>
     <span>OT 00606 · Red Bull Racing — Mall Plaza Oeste</span>
-    <span>Matriz P×I · activación de ~4 semanas</span>
+    <span>Matriz P×I · activación de máximo 2 semanas</span>
   </footer>
 
 </div>
@@ -658,26 +658,26 @@
     A: { nombre:'Fabricación en taller', desc:'Confección del piso, bastidores con tela PVC impresa, arco metálico revestido en foam y mueble gradería, con el conjunto aún en fábrica.' },
     B: { nombre:'Traslado al mall', desc:'Transporte de las piezas fabricadas hasta Mall Plaza Oeste.' },
     C: { nombre:'Montaje en sitio', desc:'Ensamblaje de bastidores y arco directamente en el mall, coordinado con la administración y con el proveedor del F1 y los simuladores.' },
-    D: { nombre:'Operación (~4 semanas)', desc:'Activación continua abierta al público, con reposición periódica de producto en los coolers.' },
+    D: { nombre:'Operación (máx. 2 semanas)', desc:'Activación abierta al público por un máximo de 2 semanas, con reposición periódica de producto en los coolers.' },
     E: { nombre:'Desmontaje', desc:'Retiro de la instalación al cierre de la activación, dentro de la ventana de tiempo asignada por el mall.' }
   };
 
   var RISKS = [
-    {id:'A2', fase:'A', cat:'Estructural', riesgo:'Arco metálico sin cálculo estructural adecuado', p:3, i:5,
-      causa:'El diseño del arco revestido en foam no valida cargas de manipulación ni corrientes de aire propias de un mall.',
+    {id:'A2', fase:'A', cat:'Estructural', riesgo:'Peso de contrapeso insuficiente para el arco', p:2, i:5,
+      causa:'El arco usa contrapesos de arena de ~40 kg por pilar como método estándar, pero ese peso no se recalcula caso a caso según el área de foam expuesta a corrientes de aire de cada mall.',
       consecuencia:'Volcamiento o daño del arco con riesgo directo para el público que circula bajo o cerca de él.',
-      mitigacion:'Cálculo estructural con ingeniero, base autoportante con contrapesos y prueba de estabilidad antes de despachar a montaje.',
+      mitigacion:'Mantener los contrapesos de arena de ~40 kg por pilar como estándar de fabricación, verificando en cada proyecto que el peso sea suficiente para las dimensiones y la exposición al viento del arco específico.',
       resp:'Ingeniería / Jefe de obra'},
-    {id:'C1', fase:'C', cat:'Seguridad pública', riesgo:'Montaje con público circulando cerca del área de obra', p:3, i:5,
-      causa:'Las ventanas de montaje son ajustadas y pueden traslaparse con horario de apertura o cierre del mall.',
-      consecuencia:'Accidente a un cliente del mall por caída de herramientas, piezas o materiales durante el armado.',
-      mitigacion:'Perimetrar el área de montaje, señalética de obra en proceso y coordinar el armado en horario de mall cerrado.',
+    {id:'C1', fase:'C', cat:'Seguridad pública', riesgo:'Montaje con público circulando cerca del área de obra', p:1, i:5,
+      causa:'La tienda Falabella exige por norma que el montaje se realice siempre después de su hora de cierre, por lo que el cruce con público es excepcional.',
+      consecuencia:'Si igualmente ocurriera, accidente a un cliente por caída de herramientas, piezas o materiales durante el armado.',
+      mitigacion:'Respetar siempre la ventana nocturna post-cierre exigida por Falabella y verificar cada noche, antes de iniciar, que no queden clientes rezagados en el área.',
       resp:'Supervisor de montaje'},
-    {id:'C3', fase:'C', cat:'Estructural', riesgo:'Anclaje del arco insuficiente por restricción de perforar el piso del mall', p:3, i:5,
-      causa:'Los malls generalmente prohíben perforar su piso, obligando a usar solo contrapesos.',
-      consecuencia:'Arco inestable con riesgo de volcamiento sobre público cercano.',
-      mitigacion:'Diseñar el arco con base autoportante y contrapesos certificados desde el taller, validado previamente con la administración del mall.',
-      resp:'Ingeniería'},
+    {id:'C3', fase:'C', cat:'Estructural', riesgo:'Colocación incorrecta de los contrapesos durante el montaje', p:2, i:5,
+      causa:'Como el mall no permite perforar el piso, la estabilidad del arco depende por completo de que los contrapesos de arena (~40 kg por pilar) queden bien puestos en cada pilar durante el armado nocturno.',
+      consecuencia:'Arco inestable con riesgo de volcamiento sobre público cercano al abrir la tienda.',
+      mitigacion:'Checklist de montaje que verifique la presencia y el peso correcto de los 4 contrapesos antes de dar por cerrada la instalación cada noche.',
+      resp:'Ingeniería / Supervisor de montaje'},
     {id:'D3', fase:'D', cat:'Seguridad pública', riesgo:'Menores interactuando sin supervisión con el mueble gradería', p:3, i:5,
       causa:'Las latas gigantes de Red Bull son visualmente atractivas para niños en una zona familiar de alto tránsito.',
       consecuencia:'Caída de la estructura o del cooler baby integrado sobre un menor.',
@@ -689,14 +689,14 @@
       mitigacion:'Cronograma de producción por lote con holgura, priorizando las piezas críticas (arco y bastidores perimetrales).',
       resp:'Jefe de proyecto'},
     {id:'B2', fase:'B', cat:'Logística mall', riesgo:'Restricción de horario o acceso de carga no coordinada', p:3, i:4,
-      causa:'Los malls exigen ventanas horarias específicas —generalmente nocturnas— y accesos de carga determinados.',
+      causa:'La tienda Falabella exige que carga, montaje y descarga se realicen siempre después de su cierre, con accesos determinados.',
       consecuencia:'Imposibilidad de ingresar materiales a tiempo, con riesgo de multas o reprogramación de la apertura.',
-      mitigacion:'Confirmar con la administración del mall el horario, la ruta de acceso y los permisos de carga con anticipación.',
+      mitigacion:'Confirmar con Falabella el horario exacto, la ruta de acceso y los permisos de carga con anticipación.',
       resp:'Jefe de proyecto'},
-    {id:'A1', fase:'A', cat:'Impresión', riesgo:'Desajuste de color respecto al manual de marca', p:3, i:3,
-      causa:'Falta de perfil de color calibrado o de prueba de impresión aprobada antes de producir el lote completo.',
+    {id:'A1', fase:'A', cat:'Impresión', riesgo:'Desajuste de color respecto al manual de marca', p:1, i:3,
+      causa:'El proceso ya contempla que los colores sean aprobados previamente por el cliente antes de producir; el riesgo solo persiste si se salta ese paso por apuro de cronograma.',
       consecuencia:'Rechazo de la marca Red Bull Racing y reimpresión completa de piezas, con atraso asociado.',
-      mitigacion:'Prueba de color e impresión aprobada por el cliente antes de imprimir el lote definitivo.',
+      mitigacion:'Mantener siempre la aprobación de color del cliente como paso obligatorio antes de imprimir el lote definitivo, sin excepción aunque el cronograma esté apretado.',
       resp:'Jefe de producción'},
     {id:'B1', fase:'B', cat:'Transporte', riesgo:'Daño de gráfica impresa por manipulación en el traslado', p:3, i:3,
       causa:'El foam de 4 mm es rígido pero frágil ante golpes, y la tela PVC puede rasgarse si se enrolla mal.',
@@ -708,15 +708,15 @@
       consecuencia:'Imposibilidad de energizar coolers, iluminación o mobiliario el día de apertura.',
       mitigacion:'Enviar ficha técnica de requerimiento eléctrico —potencia, cantidad y ubicación de puntos— al mall con anticipación y confirmarla por escrito.',
       resp:'Jefe de proyecto'},
-    {id:'D1', fase:'D', cat:'Piso', riesgo:'Desgaste o desprendimiento del piso antideslizante', p:3, i:3,
-      causa:'Miles de pisadas diarias durante 4 semanas en un mall de alto flujo de público.',
+    {id:'D1', fase:'D', cat:'Piso', riesgo:'Desgaste o desprendimiento del piso antideslizante', p:2, i:3,
+      causa:'Miles de pisadas diarias en un mall de alto flujo de público, aunque la ventana de exposición se acota a un máximo de 2 semanas.',
       consecuencia:'Levantamiento de bordes, riesgo de tropiezo e imagen deteriorada.',
-      mitigacion:'Instalación con adhesivo de uso intensivo y revisión semanal con plan de mantención en el lugar.',
+      mitigacion:'Instalación con adhesivo de uso intensivo y revisión periódica con plan de mantención en el lugar.',
       resp:'Supervisor de punto'},
-    {id:'A5', fase:'A', cat:'Mueble', riesgo:'Estructura de la gradería no soporta el peso del cooler baby', p:2, i:4,
-      causa:'El diseño del mueble no contempla la carga adicional del cooler lleno de producto.',
+    {id:'A5', fase:'A', cat:'Mueble', riesgo:'Estructura de la gradería no soporta el peso del cooler baby', p:1, i:4,
+      causa:'El mueble ya se ha utilizado antes con esta misma carga —cooler baby más latas— sin incidentes, aunque cada reutilización desgasta levemente la estructura.',
       consecuencia:'Colapso o deformación del mueble una vez instalado en el mall, con público alrededor.',
-      mitigacion:'Verificar la carga máxima del cooler baby lleno y realizar una prueba de carga en taller antes de despachar.',
+      mitigacion:'Inspección visual de la estructura antes de cada reutilización, revisando soldaduras y uniones sometidas a la carga del cooler.',
       resp:'Jefe de obra'},
     {id:'B3', fase:'B', cat:'Dimensiones', riesgo:'Piezas grandes no caben por accesos del mall', p:2, i:4,
       causa:'No se validaron las dimensiones de acceso del mall —puertas, pasillos, altura— contra el tamaño de piezas como el bastidor de 1085 cm.',
@@ -733,13 +733,13 @@
       consecuencia:'Cooler vacío en horario de alta afluencia, afectando la experiencia de marca.',
       mitigacion:'Calendario fijo de reposición con responsable asignado y stock de respaldo en bodega cercana al mall.',
       resp:'Logística / Promotoras'},
-    {id:'D4', fase:'D', cat:'Mantención', riesgo:'Desgaste de la gráfica por manipulación diaria del público', p:3, i:2,
-      causa:'Exposición prolongada de la tela PVC y el foam a que el público se apoye o los toque durante 4 semanas.',
+    {id:'D4', fase:'D', cat:'Mantención', riesgo:'Desgaste de la gráfica por manipulación diaria del público', p:2, i:2,
+      causa:'Exposición de la tela PVC y el foam a que el público se apoye o los toque, acotada a un máximo de 2 semanas.',
       consecuencia:'Imagen de marca deteriorada antes de terminar la activación.',
       mitigacion:'Revisión visual periódica y kit de piezas de repuesto o reimpresión rápida disponible.',
       resp:'Jefe de proyecto'},
     {id:'E1', fase:'E', cat:'Cronograma', riesgo:'Ventana de desmontaje insuficiente al cierre', p:3, i:2,
-      causa:'El mall exige liberar el espacio en un plazo acotado, similar a la ventana de montaje.',
+      causa:'Falabella exige liberar el espacio en un plazo acotado, en la misma ventana nocturna post-cierre usada para el montaje.',
       consecuencia:'Multas por incumplimiento del plazo o daño a piezas por desarmar apresuradamente.',
       mitigacion:'Definir un plan de desmontaje por etapas con anticipación y reservar cuadrilla suficiente para esa fecha.',
       resp:'Jefe de proyecto'},
