@@ -1,0 +1,427 @@
+<title>Manual de Bitácoras de Riesgo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Big+Shoulders+Text:wght@500;700&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#eef1ec;
+    --paper-raised:#ffffff;
+    --ink:#17211f;
+    --ink-soft:#495650;
+    --ink-mute:#748079;
+    --petrol:#17515c;
+    --petrol-deep:#0f363d;
+    --wood:#8f5f34;
+    --wood-soft:#c99a63;
+    --line:#d7dbd2;
+    --line-strong:#b9c0b4;
+    --s-bajo:#3f7d5c;
+    --s-medio:#a67c1e;
+    --s-alto:#c1622a;
+    --s-critico:#9e3b3b;
+    --s-bajo-bg:#e3ede6;
+    --s-medio-bg:#f3e9d3;
+    --s-alto-bg:#f4ded0;
+    --s-critico-bg:#f2dcda;
+    --focus:#17515c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101a1a; --paper-raised:#172423;
+      --ink:#e9ede8; --ink-soft:#b7c2ba; --ink-mute:#7f8d85;
+      --petrol:#5fbdb4; --petrol-deep:#0c1f1f;
+      --wood:#d3a06a; --wood-soft:#8f5f34;
+      --line:#2a3736; --line-strong:#3c4a47;
+      --s-bajo:#6ab68a; --s-medio:#d3a83f; --s-alto:#e08a55; --s-critico:#dd6f68;
+      --s-bajo-bg:#1a2c22; --s-medio-bg:#2c2618; --s-alto-bg:#2d2119; --s-critico-bg:#2d1c1b;
+      --focus:#5fbdb4;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101a1a; --paper-raised:#172423;
+    --ink:#e9ede8; --ink-soft:#b7c2ba; --ink-mute:#7f8d85;
+    --petrol:#5fbdb4; --petrol-deep:#0c1f1f;
+    --wood:#d3a06a; --wood-soft:#8f5f34;
+    --line:#2a3736; --line-strong:#3c4a47;
+    --s-bajo:#6ab68a; --s-medio:#d3a83f; --s-alto:#e08a55; --s-critico:#dd6f68;
+    --s-bajo-bg:#1a2c22; --s-medio-bg:#2c2618; --s-alto-bg:#2d2119; --s-critico-bg:#2d1c1b;
+    --focus:#5fbdb4;
+  }
+
+  *{box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;line-height:1.55;}
+  ::selection{background:var(--petrol);color:var(--paper);}
+  a{color:var(--petrol);}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+
+  .wrap{max-width:840px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+  .masthead{border-bottom:3px solid var(--ink);padding-bottom:1.5rem;margin-bottom:2rem;}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--petrol);font-weight:600;margin:0 0 .6rem;
+  }
+  h1{
+    font-family:"Big Shoulders Display",sans-serif;font-weight:800;
+    font-size:clamp(2.1rem,6vw,3.1rem);line-height:.96;letter-spacing:.005em;
+    text-transform:uppercase;margin:0;text-wrap:balance;color:var(--ink);
+  }
+  .masthead-sub{font-size:1rem;color:var(--ink-soft);max-width:56ch;margin:.8rem 0 0;}
+
+  section{margin-bottom:3rem;}
+  h2{
+    font-family:"Big Shoulders Text",sans-serif;font-weight:700;font-size:1.35rem;
+    text-transform:uppercase;letter-spacing:.01em;margin:0 0 .5rem;color:var(--ink);
+  }
+  p{margin:0 0 .9rem;color:var(--ink-soft);max-width:66ch;}
+  p:last-child{margin-bottom:0;}
+  strong{color:var(--ink);}
+
+  .intro-box{
+    background:var(--paper-raised);border:1px solid var(--line);
+    border-left:4px solid var(--petrol);padding:1.1rem 1.3rem;
+  }
+  .intro-box p{color:var(--ink-soft);}
+
+  /* Quick reference strip */
+  .refgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin-top:1.2rem;}
+  @media (max-width:600px){ .refgrid{grid-template-columns:1fr;} }
+  .scale-title{
+    font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--wood);font-weight:600;
+    margin-bottom:.5rem;border-bottom:1px solid var(--line);padding-bottom:.35rem;
+  }
+  .scale-row{display:grid;grid-template-columns:1.5rem 1fr;gap:.6rem;padding:.32rem 0;
+    border-bottom:1px dotted var(--line);font-size:.83rem;color:var(--ink-soft);}
+  .scale-row:last-child{border-bottom:none;}
+  .scale-n{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink-mute);}
+  .level-legend{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.1rem;}
+  .level-chip{
+    display:inline-flex;align-items:center;gap:.35rem;font-family:"IBM Plex Mono",monospace;
+    font-size:.7rem;letter-spacing:.02em;padding:.28rem .55rem;border-radius:2px;
+  }
+  .level-chip::before{content:"";width:.5rem;height:.5rem;border-radius:50%;}
+  .lvl-bajo{background:var(--s-bajo-bg);color:var(--s-bajo);} .lvl-bajo::before{background:var(--s-bajo);}
+  .lvl-medio{background:var(--s-medio-bg);color:var(--s-medio);} .lvl-medio::before{background:var(--s-medio);}
+  .lvl-alto{background:var(--s-alto-bg);color:var(--s-alto);} .lvl-alto::before{background:var(--s-alto);}
+  .lvl-critico{background:var(--s-critico-bg);color:var(--s-critico);} .lvl-critico::before{background:var(--s-critico);}
+
+  /* Steps */
+  .steps-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    border-top:2px solid var(--ink);padding-top:1.6rem;margin-bottom:1.6rem;
+  }
+  .steps-head h2{margin:0;}
+  .steps-count{font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:var(--ink-mute);}
+
+  .step{
+    display:grid;
+    grid-template-columns:3.4rem 1fr;
+    gap:1.1rem;
+    padding:1.5rem 0;
+    border-bottom:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    font-family:"Big Shoulders Display",sans-serif;font-weight:800;
+    font-size:2.6rem;line-height:1;color:var(--wood);
+  }
+  .step-title{
+    font-family:"Archivo",sans-serif;font-weight:600;font-size:1.12rem;
+    color:var(--ink);margin:0 0 .5rem;
+  }
+  .step-body p{font-size:.94rem;}
+
+  .example{
+    background:var(--paper-raised);border:1px solid var(--line);
+    border-left:3px solid var(--petrol);padding:.8rem 1rem;margin:.8rem 0;font-size:.87rem;
+  }
+  .example label{
+    display:block;font-family:"IBM Plex Mono",monospace;font-size:.63rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--petrol);margin-bottom:.3rem;
+  }
+  .example p{margin:0;color:var(--ink-soft);}
+  .example + .example{margin-top:.6rem;}
+
+  .lesson{
+    background:var(--s-medio-bg);border:1px solid var(--s-medio);
+    border-left:4px solid var(--s-medio);padding:1rem 1.2rem;margin:1rem 0 0;
+  }
+  .lesson label{
+    display:block;font-family:"IBM Plex Mono",monospace;font-size:.65rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--s-medio);
+    font-weight:600;margin-bottom:.4rem;
+  }
+  .lesson p{margin:0;color:var(--ink-soft);font-size:.88rem;}
+  .lesson p+p{margin-top:.5rem;}
+
+  .checklist{list-style:none;margin:.6rem 0 0;padding:0;}
+  .checklist li{
+    display:grid;grid-template-columns:1.2rem 1fr;gap:.6rem;
+    padding:.4rem 0;font-size:.9rem;color:var(--ink-soft);border-bottom:1px dotted var(--line);
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{
+    content:"";width:.7rem;height:.7rem;border:1.5px solid var(--wood);
+    border-radius:2px;margin-top:.2rem;
+  }
+
+  .fieldtable{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:.6rem;}
+  .fieldtable th, .fieldtable td{
+    text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  .fieldtable th{
+    font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-mute);font-weight:600;
+  }
+  .fieldtable td{color:var(--ink-soft);}
+  .fieldtable td b{color:var(--ink);}
+  .table-scroll{overflow-x:auto;}
+
+  .phase-compare{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:.6rem;}
+  .phase-compare th, .phase-compare td{
+    text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);
+  }
+  .phase-compare th{
+    font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-mute);font-weight:600;
+  }
+  .phase-compare td{color:var(--ink-soft);}
+
+  /* Final checklist */
+  .recap{
+    background:var(--petrol);color:var(--paper);
+    padding:1.6rem 1.6rem 1.8rem;
+    border-radius:2px;
+  }
+  .recap h2{color:var(--paper);}
+  .recap-list{list-style:none;margin:1rem 0 0;padding:0;
+    display:grid;gap:.55rem;}
+  .recap-list li{
+    display:grid;grid-template-columns:1.6rem 1fr;gap:.7rem;
+    font-size:.92rem;line-height:1.4;
+  }
+  .recap-list b{
+    font-family:"Big Shoulders Text",sans-serif;font-weight:700;
+    color:var(--wood-soft);
+  }
+
+  footer{
+    border-top:1px solid var(--line);padding-top:1.2rem;margin-top:3rem;
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--ink-mute);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+  }
+
+  @media print{
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"]{
+      --paper:#ffffff; --paper-raised:#ffffff;
+      --ink:#17211f; --ink-soft:#495650; --ink-mute:#748079;
+      --petrol:#17515c; --wood:#8f5f34;
+      --line:#d7dbd2; --line-strong:#b9c0b4;
+      --s-bajo:#3f7d5c; --s-medio:#a67c1e; --s-alto:#c1622a; --s-critico:#9e3b3b;
+      --s-bajo-bg:#e3ede6; --s-medio-bg:#f3e9d3; --s-alto-bg:#f4ded0; --s-critico-bg:#f2dcda;
+    }
+    @page{ size:A4; margin:14mm 12mm; }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body{background:#fff;}
+    .wrap{max-width:100%;padding:0;}
+    .step{break-inside:avoid;}
+    .recap{break-inside:avoid;}
+    h2{break-after:avoid;}
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow">Procedimiento interno · Control de Calidad</p>
+    <h1>Manual de<br>bitácoras de riesgo</h1>
+    <p class="masthead-sub">Guía paso a paso para construir una matriz de riesgos antes de fabricar, trasladar o montar cualquier proyecto. Pensada para que cualquier persona del equipo —no solo quien la redacta— pueda armar o revisar una.</p>
+  </div>
+
+  <section>
+    <div class="intro-box">
+      <p><strong>¿Qué es una bitácora de riesgos?</strong> Es un documento que anticipa, antes de que ocurran, los problemas que puede tener un proyecto —desde que se fabrica hasta que se opera en terreno— para poder prevenirlos o controlarlos en vez de reaccionar cuando ya pasaron.</p>
+      <p><strong>¿Cuándo se hace?</strong> Siempre que un proyecto combine fabricación, traslado y montaje en un lugar que la empresa no controla del todo: una carretera, un mall, la tienda de un cliente. Se hace <strong>antes</strong> de empezar a construir, no cuando ya está en curso.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Referencia rápida: las escalas</h2>
+    <p>Todo riesgo se mide con dos números de 1 a 5: qué tan probable es que pase, y qué tan grave sería si pasa. El producto de ambos (Probabilidad × Impacto) da el nivel del riesgo.</p>
+    <div class="refgrid">
+      <div>
+        <p class="scale-title">Probabilidad</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Rara</b> — no se ha visto en proyectos similares</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Improbable</b> — solo en casos excepcionales</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Posible</b> — puede pasar en algún punto</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Probable</b> — esperable en la mayoría de casos</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Casi certeza</b> — ocurre salvo control activo</span></div>
+      </div>
+      <div>
+        <p class="scale-title">Impacto</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Menor</b> — retoque, sin costo ni atraso</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Bajo</b> — reproceso puntual, horas de atraso</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Moderado</b> — 1–2 días de atraso, costo medio</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Mayor</b> — atrasa el lanzamiento, daña equipo</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Crítico</b> — riesgo a personas o pérdida total</span></div>
+      </div>
+    </div>
+    <div class="level-legend">
+      <span class="level-chip lvl-bajo">Bajo · 1–4</span>
+      <span class="level-chip lvl-medio">Medio · 5–9</span>
+      <span class="level-chip lvl-alto">Alto · 10–14</span>
+      <span class="level-chip lvl-critico">Crítico · 15–25</span>
+    </div>
+  </section>
+
+  <div class="steps-head">
+    <h2>El paso a paso</h2>
+    <span class="steps-count">8 pasos</span>
+  </div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <p class="step-title">Define el alcance: qué es tuyo y qué es de un tercero</p>
+      <p>Antes de listar riesgos, deja por escrito qué fabrica, traslada o instala tu empresa, y qué elementos trae otro proveedor. Si no separas esto, terminas evaluando riesgos de cosas que no controlas —o peor, olvidando evaluar los tuyos.</p>
+      <div class="example">
+        <label>Ejemplo real — Red Bull Racing, Mall Plaza Oeste</label>
+        <p>La empresa fabrica el piso, los bastidores, el arco y el mueble gradería. La réplica del auto de F1 y los 2 simuladores los trae un proveedor externo — se evaluó solo el riesgo de <em>coordinación</em> con ellos, no su fabricación ni traslado.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <p class="step-title">Divide el proyecto en fases</p>
+      <p>Ordena el ciclo de vida completo del proyecto en etapas claras. Las fases no son siempre las mismas: dependen de cómo se ejecuta realmente ese proyecto. Compara estos dos casos reales:</p>
+      <div class="table-scroll">
+        <table class="phase-compare">
+          <tr><th>Carro Kunstmann (móvil)</th><th>Red Bull Racing (mall)</th></tr>
+          <tr><td>A. Habilitación y revestimiento</td><td>A. Fabricación en taller</td></tr>
+          <tr><td>B. Traslado por carretera (600 km)</td><td>B. Traslado al mall</td></tr>
+          <tr><td>C. Llegada y montaje en destino</td><td>C. Montaje en sitio</td></tr>
+          <tr><td>—</td><td>D. Operación (activación de semanas)</td></tr>
+          <tr><td>—</td><td>E. Desmontaje</td></tr>
+        </table>
+      </div>
+      <p style="margin-top:.6rem">El primero es un traslado único con instalación breve; el segundo es una activación que opera varias semanas y además debe desarmarse. Por eso el segundo tiene dos fases más.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <p class="step-title">Por cada fase, identifica qué podría salir mal</p>
+      <p>Recorre mentalmente cada elemento de esa fase —cada material, cada tarea, cada punto de contacto con terceros— y pregúntate qué podría fallar. Para no dejar categorías fuera, usa esta lista como punto de partida:</p>
+      <ul class="checklist">
+        <li>Estructural — ¿algo puede caerse, ceder o volcarse?</li>
+        <li>Eléctrico — ¿hay cortocircuito, falta de suministro o de puntos suficientes?</li>
+        <li>Clima — ¿lluvia, viento o temperatura afectan el traslado o la instalación?</li>
+        <li>Logística / transporte — ¿accesos, horarios, permisos, dimensiones?</li>
+        <li>Seguridad pública — ¿hay público, niños o terceros cerca del riesgo?</li>
+        <li>Cronograma — ¿algo puede atrasar la fecha comprometida?</li>
+        <li>Calidad / terminaciones — ¿algo puede verse mal terminado?</li>
+        <li>Coordinación con terceros — ¿otro proveedor trabaja en el mismo espacio?</li>
+        <li>Producto / cadena de frío — ¿hay reposición o refrigeración involucrada?</li>
+        <li>Normativo / legal — ¿hay permisos, certificaciones o restricciones del lugar?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <p class="step-title">Registra cada riesgo con estos campos, siempre</p>
+      <p>Un riesgo sin causa ni responsable no sirve de mucho. Cada fila de la bitácora necesita estos campos completos:</p>
+      <div class="table-scroll">
+        <table class="fieldtable">
+          <tr><th>Campo</th><th>Qué responde</th></tr>
+          <tr><td><b>Categoría</b></td><td>De qué tipo es (usa la lista del paso 3)</td></tr>
+          <tr><td><b>Riesgo</b></td><td>Nombre corto y concreto del problema</td></tr>
+          <tr><td><b>Causa</b></td><td>Por qué podría llegar a pasar</td></tr>
+          <tr><td><b>Consecuencia</b></td><td>Qué pasa si efectivamente ocurre</td></tr>
+          <tr><td><b>Probabilidad / Impacto</b></td><td>Calificación de 1 a 5 cada una (paso 5)</td></tr>
+          <tr><td><b>Mitigación</b></td><td>Qué se hace para evitarlo o reducirlo</td></tr>
+          <tr><td><b>Responsable</b></td><td>Quién queda a cargo de esa mitigación</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <p class="step-title">Califica probabilidad e impacto — con la información real, no la ideal</p>
+      <p>Usa las escalas de la referencia rápida de más arriba para poner un número del 1 al 5 en probabilidad y otro en impacto.</p>
+      <div class="lesson">
+        <label>La lección más importante de este manual</label>
+        <p>Califica el riesgo <strong>como está hoy</strong>, con los controles que <strong>ya existen y funcionan</strong> — no le bajes la nota porque "se podría agregar un control después". Si el control ya está implementado y probado, baja la probabilidad. Si es solo una idea o una recomendación a futuro, la probabilidad se mantiene alta hasta que esté realmente puesto en práctica.</p>
+        <p>Ejemplo real: en la primera versión de la bitácora Red Bull, "el arco puede volcarse" se calificó como riesgo <strong>crítico</strong>, asumiendo que no había control de anclaje. Al confirmar que el arco ya usa contrapesos de arena de ~40&nbsp;kg por pilar como método probado, el riesgo bajó a <strong>alto</strong> — no porque el peligro haya desaparecido, sino porque ya existe un control real que lo reduce.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <p class="step-title">Calcula el nivel de riesgo</p>
+      <p>Multiplica probabilidad × impacto y ubica el resultado en estas cuatro bandas:</p>
+      <div class="level-legend">
+        <span class="level-chip lvl-bajo">Bajo · 1–4 — solo monitorear</span>
+      </div>
+      <div class="level-legend" style="margin-top:.4rem">
+        <span class="level-chip lvl-medio">Medio · 5–9 — mitigar en el plazo normal del proyecto</span>
+      </div>
+      <div class="level-legend" style="margin-top:.4rem">
+        <span class="level-chip lvl-alto">Alto · 10–14 — mitigar antes de avanzar a la siguiente fase</span>
+      </div>
+      <div class="level-legend" style="margin-top:.4rem">
+        <span class="level-chip lvl-critico">Crítico · 15–25 — no se avanza sin resolverlo primero</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <p class="step-title">Revisa la bitácora con quien conoce el proyecto en terreno</p>
+      <p>La primera versión siempre se arma con la información disponible al inicio —fotos, planos, una descripción general— y por eso es un <strong>borrador</strong>, no la versión final. Antes de darla por cerrada, revísala con el jefe de obra, el jefe de proyecto o quien ejecute el trabajo, y corrige cada punto según lo que realmente se hace en la práctica.</p>
+      <div class="example">
+        <label>Ejemplo real — ronda de revisión del proyecto Red Bull</label>
+        <p>Cinco correcciones de terreno cambiaron el resultado: los contrapesos de arena ya existían, los colores ya se aprueban con el cliente antes de imprimir, el mueble gradería ya se había usado con esa misma carga, el montaje siempre es después del cierre de tienda por norma de Falabella, y las latas están protegidas bajo una cúpula de acrílico. Con esa información, la bitácora pasó de tener 4 riesgos críticos a no tener ninguno.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">8</div>
+    <div class="step-body">
+      <p class="step-title">Publica, comparte y mantenla viva</p>
+      <p>Deja la bitácora en un lugar accesible para todo el equipo —idealmente en dos formatos: uno para ver e interactuar en pantalla, y un PDF para imprimir y llevar a terreno. Y algo clave: si el proyecto cambia —una fecha, una duración, un material— la bitácora tiene que actualizarse. No es un documento que se firma una vez y se archiva; se usa mientras el proyecto está vivo.</p>
+    </div>
+  </div>
+
+  <section style="margin-top:3.5rem">
+    <div class="recap">
+      <h2>Checklist de una página</h2>
+      <ol class="recap-list">
+        <li><b>1</b> Define qué es tuyo y qué es de terceros</li>
+        <li><b>2</b> Divide el proyecto en fases reales</li>
+        <li><b>3</b> Identifica riesgos por categoría, fase por fase</li>
+        <li><b>4</b> Registra causa, consecuencia, mitigación y responsable</li>
+        <li><b>5</b> Califica probabilidad e impacto según los controles que ya existen</li>
+        <li><b>6</b> Calcula el nivel (P × I) y ubícalo en su banda</li>
+        <li><b>7</b> Revisa con quien conoce el proyecto en terreno y corrige</li>
+        <li><b>8</b> Publica en dos formatos y actualízala si el proyecto cambia</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <span>Manual interno · Control de Calidad</span>
+    <span>Basado en las bitácoras OT 00188 y OT 00606</span>
+  </footer>
+
+</div>
