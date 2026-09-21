@@ -585,7 +585,7 @@
 
   <div class="facts" id="facts">
     <div class="fact"><div class="fact-num">3</div><div class="fact-label">Días de feria</div></div>
-    <div class="fact"><div class="fact-num">8</div><div class="fact-label">Áreas evaluadas</div></div>
+    <div class="fact"><div class="fact-num">9</div><div class="fact-label">Áreas evaluadas</div></div>
     <div class="fact"><div class="fact-num" id="fact-total">–</div><div class="fact-label">Riesgos identificados</div></div>
     <div class="fact"><div class="fact-num crit" id="fact-critico">–</div><div class="fact-label">En nivel crítico</div></div>
   </div>
@@ -663,7 +663,8 @@
     E: { nombre:'Impresión POP — cámara plana', desc:'Opción 2 de muro: sintra impreso en cámara plana con laminado brillante.' },
     F: { nombre:'Electricidad', desc:'Instalación eléctrica del stand bajo el reglamento de FISA y la normativa SEC.' },
     G: { nombre:'Embalaje y logística', desc:'Protección de las piezas y traslado a Espacio Riesco dentro de las ventanas autorizadas.' },
-    H: { nombre:'Instalación en terreno', desc:'Montaje y desmontaje en el recinto. No existe como departamento en Monday, pero es un área real de riesgo en un stand de feria.' }
+    H: { nombre:'Instalación en terreno', desc:'Montaje del stand en el recinto. No existe como departamento en Monday, pero es un área real de riesgo en un stand de feria.' },
+    I: { nombre:'Desinstalación y retiro', desc:'Desarme, retiro de material y entrega del espacio. Es donde se juega la devolución del depósito de garantía.' }
   };
 
   var RISKS = [
@@ -822,16 +823,38 @@
       consecuencia:'Raya o golpe en la cara vista, sin taller cerca para corregir.',
       mitigacion:'Retirar el film protector recién al cerrar el montaje y llevar kit de retoque y piezas de repuesto.',
       resp:'Instalación'},
-    {id:'H3', fase:'H', cat:'Desmontaje', riesgo:'Ventana de desmontaje muy corta el primer día', p:3, i:2,
-      causa:'El desmontaje comienza al cierre de la feria y el primer bloque es de pocas horas.',
-      consecuencia:'Desarme apresurado que daña piezas reutilizables, o multa por no liberar el espacio.',
-      mitigacion:'Planificar el desmontaje por etapas, con cuadrilla suficiente reservada para esa noche y continuidad al día siguiente.',
-      resp:'Instalación / Logística'},
     {id:'H4', fase:'H', cat:'Custodia', riesgo:'Pérdida o robo de equipos en el recinto', p:2, i:3,
       causa:'La organización declara expresamente que no se hace responsable por pérdidas durante montaje, feria ni desmontaje.',
       consecuencia:'Pérdida de equipos propios sin posibilidad de reclamo a la feria.',
       mitigacion:'Retirar equipos de valor al cierre de cada jornada y mantener inventario de lo que queda en el stand.',
-      resp:'Jefe de proyecto'}
+      resp:'Jefe de proyecto'},
+
+    /* ---------- I · DESINSTALACIÓN Y RETIRO ---------- */
+    {id:'I1', fase:'I', cat:'Ventana de retiro', riesgo:'Ventana de desmontaje insuficiente la primera noche', p:3, i:3,
+      causa:'El primer bloque de desmontaje empieza al cierre de la feria y dura poco más de una hora, con todos los expositores desarmando al mismo tiempo.',
+      consecuencia:'Desarme apresurado que daña piezas reutilizables, o quedar fuera de plazo para liberar el espacio.',
+      mitigacion:'Planificar qué se retira la primera noche y qué queda para el segundo bloque, con cuadrilla suficiente reservada para ambos.',
+      resp:'Instalación / Logística'},
+    {id:'I2', fase:'I', cat:'Recuperación de material', riesgo:'Se planifica reutilizar muros que no son recuperables', p:3, i:3,
+      causa:'El vinil adhesivo se destruye al retirarlo: no se recupera. El sintra laminado sí puede volver a usarse si se desmonta con cuidado.',
+      consecuencia:'Se asume un ahorro de material para el próximo proyecto que en la práctica no existe, o se daña el sintra al tratarlo como descartable.',
+      mitigacion:'Definir antes del desmontaje qué piezas vuelven a fábrica y cuáles se descartan, y desmontar el sintra sin forzar los puntos de fijación.',
+      resp:'Instalación / Jefe de proyecto'},
+    {id:'I3', fase:'I', cat:'Garantía', riesgo:'Daño al recinto con pérdida del depósito de garantía', p:3, i:4,
+      causa:'El depósito que se paga antes del montaje se devuelve solo si el espacio se entrega sin daños al piso, muros o instalaciones del recinto.',
+      consecuencia:'Descuento o pérdida total del depósito, un costo que no estaba en el presupuesto del proyecto.',
+      mitigacion:'Fotografiar el espacio antes de montar y al entregarlo, proteger el piso durante el desmontaje y revisar el estado con el encargado de la feria antes de retirarse.',
+      resp:'Jefe de proyecto'},
+    {id:'I4', fase:'I', cat:'Aseo ferial', riesgo:'Residuos de desmontaje no retirados del recinto', p:3, i:3,
+      causa:'El desarme genera recortes, embalajes y adhesivos que la feria exige retirar, y la cuadrilla trabaja contra reloj.',
+      consecuencia:'Multa por aseo ferial o descuento sobre el mismo depósito de garantía.',
+      mitigacion:'Contemplar el retiro de residuos como parte del desmontaje, con bolsas y transporte considerados desde la planificación, no improvisados esa noche.',
+      resp:'Instalación / Logística'},
+    {id:'I5', fase:'I', cat:'Seguridad', riesgo:'Accidente durante el desmontaje nocturno', p:2, i:5,
+      causa:'Se desarma de noche, después de tres días de feria, con la cuadrilla cansada y varios expositores maniobrando en simultáneo en los pasillos.',
+      consecuencia:'Accidente del personal propio o de terceros, con la responsabilidad legal que eso implica.',
+      mitigacion:'Exigir EPP completo también en el desmontaje —la feria lo pide igual que en el montaje— y no asignar la misma cuadrilla que trabajó toda la jornada de cierre.',
+      resp:'Prevención / Jefe de obra'}
   ];
 
   function level(score){
@@ -886,7 +909,7 @@
 
   // register
   var phasesEl = document.getElementById('phases');
-  ['A','B','C','D','E','F','G','H'].forEach(function(key){
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(key){
     var meta = PHASES[key];
     var group = RISKS.filter(function(r){return r.fase===key;}).sort(function(a,b){return b.score-a.score;});
     var phaseDiv = document.createElement('div');
