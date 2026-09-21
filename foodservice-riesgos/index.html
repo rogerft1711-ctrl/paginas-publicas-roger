@@ -1,0 +1,939 @@
+<title>Bitácora de Riesgos Red Bull Racing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Big+Shoulders+Text:wght@500;700&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#eef1ec;
+    --paper-raised:#ffffff;
+    --ink:#17211f;
+    --ink-soft:#495650;
+    --ink-mute:#748079;
+    --petrol:#17515c;
+    --petrol-deep:#0f363d;
+    --wood:#8f5f34;
+    --wood-soft:#c99a63;
+    --line:#d7dbd2;
+    --line-strong:#b9c0b4;
+    --s-bajo:#3f7d5c;
+    --s-medio:#a67c1e;
+    --s-alto:#c1622a;
+    --s-critico:#9e3b3b;
+    --s-bajo-bg:#e3ede6;
+    --s-medio-bg:#f3e9d3;
+    --s-alto-bg:#f4ded0;
+    --s-critico-bg:#f2dcda;
+    --focus:#17515c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101a1a;
+      --paper-raised:#172423;
+      --ink:#e9ede8;
+      --ink-soft:#b7c2ba;
+      --ink-mute:#7f8d85;
+      --petrol:#5fbdb4;
+      --petrol-deep:#0c1f1f;
+      --wood:#d3a06a;
+      --wood-soft:#8f5f34;
+      --line:#2a3736;
+      --line-strong:#3c4a47;
+      --s-bajo:#6ab68a;
+      --s-medio:#d3a83f;
+      --s-alto:#e08a55;
+      --s-critico:#dd6f68;
+      --s-bajo-bg:#1a2c22;
+      --s-medio-bg:#2c2618;
+      --s-alto-bg:#2d2119;
+      --s-critico-bg:#2d1c1b;
+      --focus:#5fbdb4;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101a1a;
+    --paper-raised:#172423;
+    --ink:#e9ede8;
+    --ink-soft:#b7c2ba;
+    --ink-mute:#7f8d85;
+    --petrol:#5fbdb4;
+    --petrol-deep:#0c1f1f;
+    --wood:#d3a06a;
+    --wood-soft:#8f5f34;
+    --line:#2a3736;
+    --line-strong:#3c4a47;
+    --s-bajo:#6ab68a;
+    --s-medio:#d3a83f;
+    --s-alto:#e08a55;
+    --s-critico:#dd6f68;
+    --s-bajo-bg:#1a2c22;
+    --s-medio-bg:#2c2618;
+    --s-alto-bg:#2d2119;
+    --s-critico-bg:#2d1c1b;
+    --focus:#5fbdb4;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Archivo",system-ui,sans-serif;
+    line-height:1.5;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  a{color:var(--petrol);}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+  /* ---- Masthead ---- */
+  .masthead{
+    border-bottom:3px solid var(--ink);
+    padding-bottom:1.5rem;
+    margin-bottom:1.75rem;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1.5rem;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--petrol);
+    font-weight:600;
+    margin:0 0 .5rem;
+  }
+  .ot-tag{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--wood);
+    border:1px solid var(--wood);
+    border-radius:2px;
+    padding:.22rem .6rem;
+    margin:0 0 .9rem;
+  }
+  h1{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:clamp(2.2rem,5.5vw,3.4rem);
+    line-height:.94;
+    letter-spacing:.005em;
+    text-transform:uppercase;
+    margin:0;
+    text-wrap:balance;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    font-size:.98rem;
+    color:var(--ink-soft);
+    max-width:38ch;
+    margin:.6rem 0 0;
+  }
+  .masthead-meta{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;
+    color:var(--ink-mute);
+    text-align:right;
+    line-height:1.7;
+  }
+
+  .scope-note{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-left:4px solid var(--wood);
+    padding:.85rem 1.1rem;
+    margin-bottom:2rem;
+    font-size:.88rem;
+    color:var(--ink-soft);
+  }
+  .scope-note b{color:var(--ink);}
+
+  /* ---- Fact strip ---- */
+  .facts{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    margin-bottom:2.75rem;
+  }
+  .fact{
+    background:var(--paper-raised);
+    padding:1rem 1.1rem;
+  }
+  .fact-num{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:2.1rem;
+    line-height:1;
+    color:var(--petrol);
+    font-variant-numeric:tabular-nums;
+  }
+  .fact-num.crit{color:var(--s-critico);}
+  .fact-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-top:.3rem;
+  }
+
+  section{margin-bottom:3.25rem;}
+  h2{
+    font-family:"Big Shoulders Text",sans-serif;
+    font-weight:700;
+    font-size:1.5rem;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    margin:0 0 .3rem;
+    color:var(--ink);
+  }
+  .section-intro{
+    color:var(--ink-soft);
+    max-width:68ch;
+    font-size:.95rem;
+    margin:0 0 1.4rem;
+  }
+
+  /* ---- Scale legend ---- */
+  .scales{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.75rem;
+  }
+  @media (max-width:640px){ .scales{grid-template-columns:1fr;} }
+  .scale-title{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--wood);
+    font-weight:600;
+    margin-bottom:.6rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.4rem;
+  }
+  .scale-row{
+    display:grid;
+    grid-template-columns:1.6rem 1fr;
+    gap:.7rem;
+    padding:.4rem 0;
+    border-bottom:1px dotted var(--line);
+    font-size:.86rem;
+  }
+  .scale-row:last-child{border-bottom:none;}
+  .scale-n{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    color:var(--ink-mute);
+  }
+  .scale-row b{color:var(--ink);}
+
+  .level-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem;
+    margin-top:1.5rem;
+  }
+  .level-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.03em;
+    padding:.32rem .6rem;
+    border-radius:2px;
+  }
+  .level-chip::before{content:"";width:.55rem;height:.55rem;border-radius:50%;}
+  .lvl-bajo{background:var(--s-bajo-bg);color:var(--s-bajo);}
+  .lvl-bajo::before{background:var(--s-bajo);}
+  .lvl-medio{background:var(--s-medio-bg);color:var(--s-medio);}
+  .lvl-medio::before{background:var(--s-medio);}
+  .lvl-alto{background:var(--s-alto-bg);color:var(--s-alto);}
+  .lvl-alto::before{background:var(--s-alto);}
+  .lvl-critico{background:var(--s-critico-bg);color:var(--s-critico);}
+  .lvl-critico::before{background:var(--s-critico);}
+
+  /* ---- Matrix ---- */
+  .matrix-shell{
+    display:grid;
+    grid-template-columns:2.6rem 1fr;
+    gap:.6rem;
+  }
+  .matrix-yaxis{
+    display:grid;
+    grid-template-rows:repeat(5,1fr);
+    grid-template-columns: 1fr;
+    text-align:right;
+  }
+  .matrix-yaxis span{
+    display:flex;align-items:center;justify-content:flex-end;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;color:var(--ink-mute);
+    padding-right:.3rem;
+  }
+  .matrix-main{overflow-x:auto;}
+  .matrix-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(84px,1fr));
+    grid-template-rows:repeat(5,minmax(64px,1fr));
+    gap:2px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    min-width:460px;
+  }
+  .cell{
+    background:var(--paper-raised);
+    padding:.3rem;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:flex-start;
+    gap:.25rem;
+    position:relative;
+  }
+  .cell.z-bajo{background:var(--s-bajo-bg);}
+  .cell.z-medio{background:var(--s-medio-bg);}
+  .cell.z-alto{background:var(--s-alto-bg);}
+  .cell.z-critico{background:var(--s-critico-bg);}
+  .chip{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:.72rem;
+    line-height:1;
+    padding:.32rem .4rem;
+    border-radius:2px;
+    border:1px solid rgba(0,0,0,.12);
+    cursor:pointer;
+    background:var(--paper-raised);
+    color:var(--ink);
+    position:relative;
+  }
+  .chip:hover, .chip:focus-visible{
+    transform:translateY(-1px);
+    box-shadow:0 2px 0 rgba(0,0,0,.18);
+  }
+  .chip[data-lvl="bajo"]{color:var(--s-bajo);border-color:var(--s-bajo);}
+  .chip[data-lvl="medio"]{color:var(--s-medio);border-color:var(--s-medio);}
+  .chip[data-lvl="alto"]{color:var(--s-alto);border-color:var(--s-alto);}
+  .chip[data-lvl="critico"]{color:var(--s-critico);border-color:var(--s-critico);background:var(--s-critico);}
+  .chip[data-lvl="critico"]{color:var(--paper-raised);}
+  .chip .tip{
+    position:absolute;
+    bottom:calc(100% + 6px);
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Archivo",sans-serif;
+    font-weight:400;
+    font-size:.76rem;
+    padding:.4rem .6rem;
+    border-radius:3px;
+    width:max-content;
+    max-width:220px;
+    white-space:normal;
+    text-align:left;
+    line-height:1.35;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .1s ease;
+    z-index:5;
+  }
+  .chip:hover .tip, .chip:focus-visible .tip{opacity:1;}
+  .matrix-xaxis{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:repeat(5,minmax(84px,1fr));
+    min-width:460px;
+    margin-top:.35rem;
+  }
+  .matrix-xaxis span{
+    text-align:center;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    color:var(--ink-mute);
+  }
+  .axis-caption{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:center;
+    margin-top:.15rem;
+  }
+  .axis-caption-y{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    grid-column:1;
+    grid-row:1;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:center;
+    align-self:center;
+  }
+
+  /* ---- Filters ---- */
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-bottom:1.6rem;
+  }
+  .filter-btn{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.74rem;
+    letter-spacing:.03em;
+    padding:.4rem .8rem;
+    border-radius:2px;
+    border:1px solid var(--line-strong);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .filter-btn[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---- Phase groups ---- */
+  .phase{
+    margin-bottom:2.2rem;
+    border-top:2px solid var(--ink);
+    padding-top:1rem;
+  }
+  .phase-head{
+    display:flex;
+    align-items:baseline;
+    gap:.9rem;
+    flex-wrap:wrap;
+    margin-bottom:.3rem;
+  }
+  .phase-letter{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:2.6rem;
+    color:var(--wood);
+    line-height:1;
+  }
+  .phase-name{
+    font-family:"Big Shoulders Text",sans-serif;
+    font-weight:700;
+    font-size:1.2rem;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  .phase-desc{
+    color:var(--ink-soft);
+    font-size:.9rem;
+    max-width:60ch;
+    margin:0 0 1.1rem;
+  }
+
+  /* ---- Risk card ---- */
+  .risk{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-left:4px solid var(--line-strong);
+    padding:1rem 1.15rem;
+    margin-bottom:.7rem;
+    transition:background .15s ease;
+  }
+  .risk[data-lvl="bajo"]{border-left-color:var(--s-bajo);}
+  .risk[data-lvl="medio"]{border-left-color:var(--s-medio);}
+  .risk[data-lvl="alto"]{border-left-color:var(--s-alto);}
+  .risk[data-lvl="critico"]{border-left-color:var(--s-critico);}
+  .risk.pulse{background:var(--s-medio-bg);}
+  .risk.hidden{display:none;}
+
+  .risk-top{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:.6rem .8rem;
+    margin-bottom:.7rem;
+  }
+  .risk-id{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:.78rem;
+    color:var(--ink-mute);
+  }
+  .risk-title{
+    font-family:"Archivo",sans-serif;
+    font-weight:600;
+    font-size:1.02rem;
+    color:var(--ink);
+    flex:1 1 auto;
+    min-width:180px;
+  }
+  .risk-cat{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--wood);
+  }
+  .risk-pi{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.76rem;
+    color:var(--ink-mute);
+    font-variant-numeric:tabular-nums;
+  }
+  .pill{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:.22rem .55rem;
+    border-radius:2px;
+    font-weight:600;
+  }
+  .pill.bajo{background:var(--s-bajo-bg);color:var(--s-bajo);}
+  .pill.medio{background:var(--s-medio-bg);color:var(--s-medio);}
+  .pill.alto{background:var(--s-alto-bg);color:var(--s-alto);}
+  .pill.critico{background:var(--s-critico-bg);color:var(--s-critico);}
+
+  .risk-detail{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.8rem 1.4rem;
+  }
+  @media (max-width:600px){ .risk-detail{grid-template-columns:1fr;} }
+  .risk-field label{
+    display:block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.65rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-bottom:.2rem;
+  }
+  .risk-field p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--ink-soft);
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding-top:1.2rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    color:var(--ink-mute);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .chip, .risk{transition:none;}
+  }
+
+  /* ---- Print ---- */
+  @media print{
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"]{
+      --paper:#ffffff; --paper-raised:#ffffff;
+      --ink:#17211f; --ink-soft:#495650; --ink-mute:#748079;
+      --petrol:#17515c; --wood:#8f5f34;
+      --line:#d7dbd2; --line-strong:#b9c0b4;
+      --s-bajo:#3f7d5c; --s-medio:#a67c1e; --s-alto:#c1622a; --s-critico:#9e3b3b;
+      --s-bajo-bg:#e3ede6; --s-medio-bg:#f3e9d3; --s-alto-bg:#f4ded0; --s-critico-bg:#f2dcda;
+    }
+    @page{ size:A4; margin:14mm 12mm; }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body{ background:#fff; }
+    .wrap{ max-width:100%; padding:0; }
+    .filters{ display:none; }
+    .chip .tip{ display:none; }
+    .matrix-main{ overflow:visible; }
+    .matrix-grid, .matrix-xaxis{ min-width:0; }
+    .phase{ display:block !important; break-inside:avoid-page; }
+    .risk{ display:block !important; break-inside:avoid; }
+    .phase-head, h2{ break-after:avoid; }
+    section{ margin-bottom:1.6rem; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Proyecto · Stand de feria</p>
+      <p class="ot-tag">Espacio Food Service — Espacio Riesco</p>
+      <h1>Bitácora de<br>riesgos</h1>
+      <p class="masthead-sub">Bitácora organizada <b>por área productiva</b>. Stand para Espacio Food Service, 29 y 30 de septiembre y 1 de octubre de 2026 en Espacio Riesco. Muros en dos opciones: vinil adhesivo o sintra impreso en cámara plana con laminado brillante.</p>
+    </div>
+    <div class="masthead-meta">
+      OT ___________
+    </div>
+  </div>
+
+  <div class="scope-note">
+    <b>Eje de la bitácora:</b> los riesgos se agrupan por <b>área productiva</b>, no por fase, usando la nomenclatura de la columna Departamento de Monday. El foco está puesto en los riesgos de <b>color y diseño</b>, que en este proyecto se concentran en Agencia y en las dos áreas de impresión.<br><b>Opciones de muro:</b> (1) vinil adhesivo impreso en plotter, o (2) sintra impreso en cámara plana con laminado brillante. Son procesos de impresión distintos, y esa diferencia es en sí misma el riesgo principal del proyecto.
+  </div>
+
+  <div class="facts" id="facts">
+    <div class="fact"><div class="fact-num">3</div><div class="fact-label">Días de feria</div></div>
+    <div class="fact"><div class="fact-num">8</div><div class="fact-label">Áreas evaluadas</div></div>
+    <div class="fact"><div class="fact-num" id="fact-total">–</div><div class="fact-label">Riesgos identificados</div></div>
+    <div class="fact"><div class="fact-num crit" id="fact-critico">–</div><div class="fact-label">En nivel crítico</div></div>
+  </div>
+
+  <section>
+    <h2>Escalas de evaluación</h2>
+    <p class="section-intro">Cada riesgo se califica con probabilidad e impacto de 1 a 5. El producto de ambos define el nivel de riesgo y su color en la matriz.</p>
+    <div class="scales">
+      <div>
+        <p class="scale-title">Probabilidad</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Rara</b> — no se ha presentado en proyectos similares</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Improbable</b> — solo en circunstancias excepcionales</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Posible</b> — puede ocurrir en algún punto del proyecto</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Probable</b> — esperable en la mayoría de casos similares</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Casi certeza</b> — ocurre salvo control activo</span></div>
+      </div>
+      <div>
+        <p class="scale-title">Impacto</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Menor</b> — retoque estético, sin costo ni atraso</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Bajo</b> — reproceso puntual, atraso de horas</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Moderado</b> — atraso de 1–2 días, costo medio</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Mayor</b> — atrasa la apertura de la feria o daña la imagen de marca</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Crítico</b> — riesgo a personas, o el stand no puede abrir</span></div>
+      </div>
+    </div>
+    <div class="level-legend">
+      <span class="level-chip lvl-bajo">Bajo · 1–4</span>
+      <span class="level-chip lvl-medio">Medio · 5–9</span>
+      <span class="level-chip lvl-alto">Alto · 10–14</span>
+      <span class="level-chip lvl-critico">Crítico · 15–25</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Matriz probabilidad × impacto</h2>
+    <p class="section-intro">Cada celda ubica los riesgos según su calificación. Toca o pasa el cursor sobre un código para ver el riesgo; toca de nuevo para saltar a su ficha completa más abajo.</p>
+    <div class="matrix-shell">
+      <div class="axis-caption-y">Impacto ↑</div>
+      <div class="matrix-main">
+        <div class="matrix-grid" id="matrix"></div>
+        <div class="matrix-xaxis" id="matrix-x"></div>
+        <p class="axis-caption">Probabilidad →</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Registro detallado</h2>
+    <p class="section-intro">Riesgos agrupados por área productiva. Filtra por nivel para priorizar la revisión.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por nivel de riesgo">
+      <button class="filter-btn" data-filter="todos" aria-pressed="true">Todos</button>
+      <button class="filter-btn" data-filter="critico" aria-pressed="false">Crítico</button>
+      <button class="filter-btn" data-filter="alto" aria-pressed="false">Alto</button>
+      <button class="filter-btn" data-filter="medio" aria-pressed="false">Medio</button>
+      <button class="filter-btn" data-filter="bajo" aria-pressed="false">Bajo</button>
+    </div>
+    <div id="phases"></div>
+  </section>
+
+  <footer>
+    <span>Espacio Food Service · Espacio Riesco — 29 sept al 1 oct 2026</span>
+    <span>Matriz P×I · bitácora por área productiva</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+
+  var PHASES = {
+    A: { nombre:'Comercial', desc:'Contrato con la feria, plazos de FISA, pagos obligatorios y definición del alcance con el cliente.' },
+    B: { nombre:'Diseño industrial', desc:'Plano del stand, modulación de muros y dimensionamiento de las fijaciones.' },
+    C: { nombre:'Agencia — diseño gráfico', desc:'El diseño, los colores y los archivos de impresión. Es el área donde se originan la mayoría de los riesgos de color de este proyecto.' },
+    D: { nombre:'Impresión y emplaque — vinil', desc:'Opción 1 de muro: vinil adhesivo impreso en plotter y aplicado sobre el panel.' },
+    E: { nombre:'Impresión POP — cámara plana', desc:'Opción 2 de muro: sintra impreso en cámara plana con laminado brillante.' },
+    F: { nombre:'Electricidad', desc:'Instalación eléctrica del stand bajo el reglamento de FISA y la normativa SEC.' },
+    G: { nombre:'Embalaje y logística', desc:'Protección de las piezas y traslado a Espacio Riesco dentro de las ventanas autorizadas.' },
+    H: { nombre:'Instalación en terreno', desc:'Montaje y desmontaje en el recinto. No existe como departamento en Monday, pero es un área real de riesgo en un stand de feria.' }
+  };
+
+  var RISKS = [
+    /* ---------- A · COMERCIAL ---------- */
+    {id:'A1', fase:'A', cat:'Plazo contractual', riesgo:'Aprobación del proyecto fuera del plazo de FISA', p:3, i:5,
+      causa:'La aprobación de proyectos especiales tiene fecha límite y depende de entregar planos y antecedentes completos a aprobacionproyectos@fisa.cl.',
+      consecuencia:'Sin proyecto aprobado no se autoriza el montaje: el stand simplemente no se construye.',
+      mitigacion:'Fijar una fecha interna anterior al deadline de la feria y bloquear el envío como hito de proyecto, con responsable nombrado.',
+      resp:'Comercial / Jefe de proyecto'},
+    {id:'A2', fase:'A', cat:'Pagos obligatorios', riesgo:'Derecho de producción o depósito de garantía no pagados', p:2, i:5,
+      causa:'Todo proyecto especial exige pagar derecho de producción y dejar depósito de garantía antes de montar.',
+      consecuencia:'La feria impide el ingreso al recinto el día del montaje.',
+      mitigacion:'Verificar ambos comprobantes antes de despachar material, y guardar copia junto a la documentación del stand.',
+      resp:'Comercial / Administración'},
+    {id:'A3', fase:'A', cat:'Alcance', riesgo:'Alcance de los muros no definido por escrito', p:3, i:3,
+      causa:'El proyecto admite dos acabados de muro —vinil o sintra laminado— y la decisión puede quedar abierta demasiado tiempo.',
+      consecuencia:'Cambio de material a última hora, con reimpresión completa y costo no presupuestado.',
+      mitigacion:'Dejar por escrito qué muro lleva cada acabado antes de liberar el diseño a producción; todo cambio posterior se cotiza.',
+      resp:'Comercial'},
+
+    /* ---------- B · DISEÑO INDUSTRIAL ---------- */
+    {id:'B1', fase:'B', cat:'Modulación', riesgo:'El plano no contempla las uniones reales de los paneles', p:3, i:4,
+      causa:'La plancha de sintra tiene un formato máximo, y un muro más alto o más ancho obliga a unir piezas que el diseño no previó.',
+      consecuencia:'La unión cae en medio de un logo o de un texto, y queda a la vista en el muro terminado.',
+      mitigacion:'Definir el despiece de muros en el plano antes de diseñar la gráfica, y entregar a Agencia el mapa de uniones como restricción de diseño.',
+      resp:'Diseño industrial'},
+    {id:'B2', fase:'B', cat:'Requisito de feria', riesgo:'Cenefa no contemplada en el diseño del stand', p:2, i:3,
+      causa:'La feria exige cenefa en la parte superior con el nombre del expositor y el número de stand, con su propio plazo de entrega.',
+      consecuencia:'Incumplimiento del reglamento y necesidad de fabricarla a última hora.',
+      mitigacion:'Incluir la cenefa en el plano desde el inicio y respetar su deadline, que es anterior al de las gráficas.',
+      resp:'Diseño industrial'},
+    {id:'B3', fase:'B', cat:'Fijación', riesgo:'Fijación de los muros no dimensionada al peso del material', p:2, i:4,
+      causa:'El sintra laminado pesa distinto que un panel con vinil, y la estructura puede haberse calculado para el más liviano.',
+      consecuencia:'Muro que se descuelga o se pandea durante los días de feria, con público alrededor.',
+      mitigacion:'Calcular la fijación para el material más pesado de los dos, y verificar el anclaje en el pre-armado de prueba.',
+      resp:'Diseño industrial'},
+
+    /* ---------- C · AGENCIA ---------- */
+    {id:'C1', fase:'C', cat:'Color', riesgo:'Color corporativo sin validar contra muestra física', p:3, i:4,
+      causa:'El color se aprueba mirando pantalla en vez de una prueba impresa en el material y el proceso definitivos.',
+      consecuencia:'La marca rechaza el muro ya impreso y hay que reimprimir completo.',
+      mitigacion:'Aprobar el color sobre prueba impresa en el sustrato real —vinil y sintra— antes de liberar el lote; la pantalla nunca es referencia válida.',
+      resp:'Agencia / Jefe de producción'},
+    {id:'C2', fase:'C', cat:'Color', riesgo:'El mismo color no calza entre plotter y cámara plana', p:4, i:4,
+      causa:'Vinil y sintra se imprimen en máquinas, tintas y sustratos distintos. Sin perfiles calibrados, un mismo corporativo sale diferente en cada proceso.',
+      consecuencia:'Dos muros contiguos del mismo color se ven distintos en el stand armado. Es el riesgo más probable de este proyecto.',
+      mitigacion:'Imprimir una prueba del corporativo en los dos procesos y compararlas lado a lado bajo la misma luz antes de producir. Si no calzan, ajustar perfil o unificar todo en un solo proceso.',
+      resp:'Agencia / Impresión'},
+    {id:'C3', fase:'C', cat:'Archivos', riesgo:'Archivos en RGB o con Pantone sin conversión controlada', p:3, i:3,
+      causa:'El archivo llega en RGB o con tintas Pantone que cada RIP convierte a su manera.',
+      consecuencia:'Desviación de color que recién se detecta con el material impreso.',
+      mitigacion:'Entregar archivos en CMYK con el perfil de salida de cada proceso ya aplicado, y dejar la conversión documentada.',
+      resp:'Agencia'},
+    {id:'C4', fase:'C', cat:'Diseño', riesgo:'Resolución insuficiente al escalar a tamaño real', p:2, i:4,
+      causa:'Se diseña en formato reducido y se amplía a la medida del muro sin revisar la resolución efectiva de las imágenes.',
+      consecuencia:'Gráfica pixelada visible a corta distancia, en un stand donde el público se acerca.',
+      mitigacion:'Verificar la resolución al 100% del tamaño final antes de enviar a impresión, y pedir los originales en alta a quien corresponda.',
+      resp:'Agencia'},
+    {id:'C5', fase:'C', cat:'Diseño', riesgo:'Diseño aprobado sin evaluar los reflejos del laminado brillante', p:3, i:4,
+      causa:'El laminado brillante se aprueba en archivo, donde no existen los focos ni los reflejos del recinto.',
+      consecuencia:'Bajo la iluminación de la feria, el brillo devuelve reflejos y la gráfica se vuelve ilegible desde varios ángulos.',
+      mitigacion:'Evaluar una muestra laminada bajo luz dirigida antes de aprobar. Si hay texto crítico sobre fondo oscuro, considerar laminado mate en esa zona.',
+      resp:'Agencia / Cliente'},
+    {id:'C6', fase:'C', cat:'Archivos', riesgo:'Sangrado y márgenes de seguridad insuficientes', p:2, i:3,
+      causa:'El archivo se entrega al borde exacto de la medida, sin margen para el corte ni para el calce en la estructura.',
+      consecuencia:'Se corta contenido o aparece una franja sin imprimir en el canto del muro.',
+      mitigacion:'Entregar con sangrado definido y mantener textos y logos dentro del margen de seguridad acordado con producción.',
+      resp:'Agencia'},
+
+    /* ---------- D · IMPRESIÓN Y EMPLAQUE (VINIL) ---------- */
+    {id:'D1', fase:'D', cat:'Aplicación', riesgo:'Burbujas, arrugas o traslapes visibles en paños grandes', p:3, i:3,
+      causa:'Un muro amplio exige varios paños de vinil y la aplicación se hace contra reloj.',
+      consecuencia:'Acabado deficiente en la superficie más visible del stand.',
+      mitigacion:'Planificar dónde caen los traslapes en coordinación con el diseño, aplicar con dos personas y reservar tiempo para reponer un paño si falla.',
+      resp:'Impresión y emplaque'},
+    {id:'D2', fase:'D', cat:'Color', riesgo:'Deriva de color entre rollos impresos en momentos distintos', p:3, i:3,
+      causa:'Si el muro se imprime en tandas separadas, el color puede correrse entre una y otra.',
+      consecuencia:'Diferencia de tono entre paños contiguos del mismo muro.',
+      mitigacion:'Imprimir todo el muro en una sola pasada y del mismo rollo; si no es posible, dejar la unión en un quiebre del diseño, no en un plano liso.',
+      resp:'Impresión y emplaque'},
+    {id:'D3', fase:'D', cat:'Adherencia', riesgo:'Mala adherencia del vinil al sustrato del panel', p:2, i:3,
+      causa:'Se aplica sobre una superficie con polvo, grasa o una pintura que no permite buen agarre.',
+      consecuencia:'Bordes levantados durante los días de feria, justo donde más se mira.',
+      mitigacion:'Limpiar y desengrasar el panel antes de aplicar, y probar adherencia en una esquina antes de cubrir el muro completo.',
+      resp:'Impresión y emplaque'},
+
+    /* ---------- E · IMPRESIÓN POP (CÁMARA PLANA) ---------- */
+    {id:'E1', fase:'E', cat:'Diseño', riesgo:'El laminado brillante impide leer la gráfica bajo los focos', p:3, i:4,
+      causa:'El brillo refleja la iluminación del recinto y la de los focos del propio stand.',
+      consecuencia:'El mensaje del muro no se lee desde el pasillo, que es justamente desde donde lo mira el público.',
+      mitigacion:'Verificar la legibilidad con una muestra laminada bajo luz dirigida y ajustar la posición de los focos en el montaje.',
+      resp:'Impresión POP'},
+    {id:'E2', fase:'E', cat:'Terminación', riesgo:'Rayas y huellas marcadas sobre el laminado brillante', p:3, i:2,
+      causa:'El brillo muestra cualquier huella o roce, y durante tres días de feria el público se apoya y toca.',
+      consecuencia:'El muro se ve sucio y desgastado antes de terminar la feria.',
+      mitigacion:'Mantener el film protector hasta terminar el montaje, y dejar paño de limpieza y kit de retoque en el stand.',
+      resp:'Impresión POP / Punto'},
+    {id:'E3', fase:'E', cat:'Material', riesgo:'Plancha de sintra alabeada por temperatura', p:2, i:3,
+      causa:'El sintra se pandea con el calor, y un recinto ferial con focos y público sube varios grados.',
+      consecuencia:'Muro ondulado que se despega de la estructura.',
+      mitigacion:'Fijar la plancha con puntos de sujeción distribuidos, no solo en los bordes, dejando holgura para la dilatación.',
+      resp:'Impresión POP'},
+    {id:'E4', fase:'E', cat:'Color', riesgo:'Deriva de color entre planchas impresas en distintas pasadas', p:3, i:3,
+      causa:'Un muro grande se arma con varias planchas y la cámara plana puede variar entre pasadas.',
+      consecuencia:'Diferencia de tono entre planchas contiguas, visible justo en la unión.',
+      mitigacion:'Imprimir todas las planchas de un mismo muro en la misma jornada y verificarlas juntas antes de laminar.',
+      resp:'Impresión POP'},
+
+    /* ---------- F · ELECTRICIDAD ---------- */
+    {id:'F1', fase:'F', cat:'Normativa', riesgo:'Documentación SEC no impresa ni disponible en el stand', p:3, i:5,
+      causa:'El reglamento exige tener en el stand los planos, memorias y especificaciones técnicas presentadas a la SEC, disponibles para fiscalización.',
+      consecuencia:'La feria no energiza el proyecto. Un stand sin luz en una feria de food service no puede operar.',
+      mitigacion:'Imprimir la carpeta completa y dejarla físicamente en el stand desde el primer día de montaje, con un responsable que sepa dónde está.',
+      resp:'Electricidad / Jefe de proyecto'},
+    {id:'F2', fase:'F', cat:'Normativa', riesgo:'Instalación no ejecutada por instalador autorizado clase A o B', p:2, i:5,
+      causa:'Toda alteración eléctrica debe ser ejecutada por un profesional competente con registro vigente.',
+      consecuencia:'La instalación se rechaza en fiscalización y el stand queda sin energía.',
+      mitigacion:'Contratar instalador con registro SEC vigente y adjuntar su certificación a la documentación del stand.',
+      resp:'Electricidad'},
+    {id:'F3', fase:'F', cat:'Consumo', riesgo:'El consumo real supera la energía contratada', p:3, i:4,
+      causa:'La asignación se calcula por metro cuadrado y es fácil superarla al sumar focos, pantallas y equipos de cocina o refrigeración.',
+      consecuencia:'Corte de energía en plena feria, o necesidad de contratar energía adicional fuera de plazo.',
+      mitigacion:'Sumar el consumo de todos los equipos antes de la fecha límite de energía adicional, usando la tabla de consumos referenciales de la feria.',
+      resp:'Electricidad / Jefe de proyecto'},
+    {id:'F4', fase:'F', cat:'Normativa', riesgo:'Grado de protección IP insuficiente en los enchufes', p:2, i:3,
+      causa:'El reglamento exige un grado IP mínimo según el entorno, más exigente en exterior y en zonas húmedas.',
+      consecuencia:'Observación en fiscalización y riesgo eléctrico real si hay agua cerca.',
+      mitigacion:'Especificar el grado IP exigido según dónde quede el stand, y montar las tomas en altura si hay humedad.',
+      resp:'Electricidad'},
+
+    /* ---------- G · EMBALAJE Y LOGÍSTICA ---------- */
+    {id:'G1', fase:'G', cat:'Ventana de montaje', riesgo:'Montaje mal coordinado con las ventanas de la feria', p:3, i:4,
+      causa:'La feria define días y horarios distintos para proyectos especiales y para modulados, y no hay acceso fuera de esos bloques.',
+      consecuencia:'Material que llega fuera de horario y queda sin poder ingresar al recinto.',
+      mitigacion:'Confirmar por escrito el bloque asignado y planificar el despacho con un día de holgura respecto al cierre de la ventana.',
+      resp:'Logística / Jefe de proyecto'},
+    {id:'G2', fase:'G', cat:'Transporte', riesgo:'Gráfica dañada en el traslado a Espacio Riesco', p:3, i:3,
+      causa:'Los muros impresos viajan en paneles grandes y el canto es lo primero que se golpea.',
+      consecuencia:'Reimpresión de urgencia sin tiempo de reacción antes de la apertura.',
+      mitigacion:'Embalar según la ficha que corresponda al material, proteger cantos y llevar repuesto de las piezas gráficas más expuestas.',
+      resp:'Embalaje / Logística'},
+    {id:'G3', fase:'G', cat:'Control de bultos', riesgo:'Piezas faltantes o bultos sin numerar', p:3, i:3,
+      causa:'El stand viaja desarmado y sin numeración no hay forma de saber en terreno si llegó todo.',
+      consecuencia:'Se descubre una pieza faltante durante el montaje, cuando ya no hay margen para reponerla.',
+      mitigacion:'Numerar los bultos 1 de N, contar contra el plano de despiece antes de despachar y registrar el total.',
+      resp:'Embalaje'},
+
+    /* ---------- H · INSTALACIÓN EN TERRENO ---------- */
+    {id:'H1', fase:'H', cat:'Documentación laboral', riesgo:'Personal sin EPP o sin la documentación exigida por la feria', p:2, i:4,
+      causa:'La feria exige EPP durante montaje y desmontaje, además de contratos, registro de entrega de EPP y adherencia a mutualidad.',
+      consecuencia:'Se impide el acceso de la cuadrilla al recinto y se pierde la ventana de montaje.',
+      mitigacion:'Revisar la carpeta de documentación laboral y el EPP completo de cada persona antes de salir a terreno.',
+      resp:'Prevención / Jefe de obra'},
+    {id:'H2', fase:'H', cat:'Terminación', riesgo:'Daño a la gráfica durante el montaje', p:3, i:3,
+      causa:'Los muros se manipulan ya impresos, en un recinto con varias cuadrillas trabajando al mismo tiempo.',
+      consecuencia:'Raya o golpe en la cara vista, sin taller cerca para corregir.',
+      mitigacion:'Retirar el film protector recién al cerrar el montaje y llevar kit de retoque y piezas de repuesto.',
+      resp:'Instalación'},
+    {id:'H3', fase:'H', cat:'Desmontaje', riesgo:'Ventana de desmontaje muy corta el primer día', p:3, i:2,
+      causa:'El desmontaje comienza al cierre de la feria y el primer bloque es de pocas horas.',
+      consecuencia:'Desarme apresurado que daña piezas reutilizables, o multa por no liberar el espacio.',
+      mitigacion:'Planificar el desmontaje por etapas, con cuadrilla suficiente reservada para esa noche y continuidad al día siguiente.',
+      resp:'Instalación / Logística'},
+    {id:'H4', fase:'H', cat:'Custodia', riesgo:'Pérdida o robo de equipos en el recinto', p:2, i:3,
+      causa:'La organización declara expresamente que no se hace responsable por pérdidas durante montaje, feria ni desmontaje.',
+      consecuencia:'Pérdida de equipos propios sin posibilidad de reclamo a la feria.',
+      mitigacion:'Retirar equipos de valor al cierre de cada jornada y mantener inventario de lo que queda en el stand.',
+      resp:'Jefe de proyecto'}
+  ];
+
+  function level(score){
+    if(score>=15) return 'critico';
+    if(score>=10) return 'alto';
+    if(score>=5) return 'medio';
+    return 'bajo';
+  }
+  var LABEL = {bajo:'Bajo', medio:'Medio', alto:'Alto', critico:'Crítico'};
+
+  RISKS.forEach(function(r){ r.score = r.p*r.i; r.lvl = level(r.score); });
+
+  // facts
+  document.getElementById('fact-total').textContent = RISKS.length;
+  document.getElementById('fact-critico').textContent = RISKS.filter(function(r){return r.lvl==='critico';}).length;
+
+  // matrix (impact 5 at top row .. 1 at bottom)
+  var grid = document.getElementById('matrix');
+  for(var irow=5; irow>=1; irow--){
+    for(var pcol=1; pcol<=5; pcol++){
+      var cellRisks = RISKS.filter(function(r){return r.i===irow && r.p===pcol;});
+      var cellLvl = level(pcol*irow);
+      var cell = document.createElement('div');
+      cell.className = 'cell z-'+cellLvl;
+      cellRisks.forEach(function(r){
+        var chip = document.createElement('button');
+        chip.className = 'chip';
+        chip.type = 'button';
+        chip.setAttribute('data-lvl', r.lvl);
+        chip.setAttribute('data-target', r.id);
+        chip.innerHTML = r.id + '<span class="tip">'+r.riesgo+'</span>';
+        chip.addEventListener('click', function(){
+          var id = this.getAttribute('data-target');
+          var card = document.querySelector('[data-card="'+id+'"]');
+          if(card){
+            card.scrollIntoView({behavior:'smooth', block:'center'});
+            card.classList.add('pulse');
+            setTimeout(function(){ card.classList.remove('pulse'); }, 1400);
+          }
+        });
+        cell.appendChild(chip);
+      });
+      grid.appendChild(cell);
+    }
+  }
+  var xaxis = document.getElementById('matrix-x');
+  for(var x=1;x<=5;x++){
+    var s = document.createElement('span');
+    s.textContent = x;
+    xaxis.appendChild(s);
+  }
+
+  // register
+  var phasesEl = document.getElementById('phases');
+  ['A','B','C','D','E','F','G','H'].forEach(function(key){
+    var meta = PHASES[key];
+    var group = RISKS.filter(function(r){return r.fase===key;}).sort(function(a,b){return b.score-a.score;});
+    var phaseDiv = document.createElement('div');
+    phaseDiv.className = 'phase';
+    phaseDiv.innerHTML =
+      '<div class="phase-head"><span class="phase-letter">'+key+'</span><span class="phase-name">'+meta.nombre+'</span></div>'+
+      '<p class="phase-desc">'+meta.desc+'</p>';
+    group.forEach(function(r){
+      var card = document.createElement('article');
+      card.className = 'risk';
+      card.setAttribute('data-lvl', r.lvl);
+      card.setAttribute('data-card', r.id);
+      card.innerHTML =
+        '<div class="risk-top">'+
+          '<span class="risk-id">'+r.id+'</span>'+
+          '<span class="risk-title">'+r.riesgo+'</span>'+
+          '<span class="risk-cat">'+r.cat+'</span>'+
+          '<span class="pill '+r.lvl+'">'+LABEL[r.lvl]+'</span>'+
+          '<span class="risk-pi">P'+r.p+' · I'+r.i+' · '+r.score+'</span>'+
+        '</div>'+
+        '<div class="risk-detail">'+
+          '<div class="risk-field"><label>Causa</label><p>'+r.causa+'</p></div>'+
+          '<div class="risk-field"><label>Consecuencia</label><p>'+r.consecuencia+'</p></div>'+
+          '<div class="risk-field"><label>Mitigación</label><p>'+r.mitigacion+'</p></div>'+
+          '<div class="risk-field"><label>Responsable</label><p>'+r.resp+'</p></div>'+
+        '</div>';
+      phaseDiv.appendChild(card);
+    });
+    phasesEl.appendChild(phaseDiv);
+  });
+
+  // filters
+  var buttons = document.querySelectorAll('.filter-btn');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      this.setAttribute('aria-pressed','true');
+      var f = this.getAttribute('data-filter');
+      document.querySelectorAll('.risk').forEach(function(card){
+        var show = (f==='todos') || (card.getAttribute('data-lvl')===f);
+        card.classList.toggle('hidden', !show);
+      });
+      document.querySelectorAll('.phase').forEach(function(ph){
+        var anyVisible = ph.querySelectorAll('.risk:not(.hidden)').length>0;
+        ph.style.display = anyVisible ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
