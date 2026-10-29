@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bitácora Riesgos Checkouts</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Big+Shoulders+Text:wght@500;700&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#eef1ec;
+    --paper-raised:#ffffff;
+    --ink:#17211f;
+    --ink-soft:#495650;
+    --ink-mute:#748079;
+    --petrol:#17515c;
+    --petrol-deep:#0f363d;
+    --wood:#8f5f34;
+    --wood-soft:#c99a63;
+    --line:#d7dbd2;
+    --line-strong:#b9c0b4;
+    --s-bajo:#3f7d5c;
+    --s-medio:#a67c1e;
+    --s-alto:#c1622a;
+    --s-critico:#9e3b3b;
+    --s-bajo-bg:#e3ede6;
+    --s-medio-bg:#f3e9d3;
+    --s-alto-bg:#f4ded0;
+    --s-critico-bg:#f2dcda;
+    --focus:#17515c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101a1a;
+      --paper-raised:#172423;
+      --ink:#e9ede8;
+      --ink-soft:#b7c2ba;
+      --ink-mute:#7f8d85;
+      --petrol:#5fbdb4;
+      --petrol-deep:#0c1f1f;
+      --wood:#d3a06a;
+      --wood-soft:#8f5f34;
+      --line:#2a3736;
+      --line-strong:#3c4a47;
+      --s-bajo:#6ab68a;
+      --s-medio:#d3a83f;
+      --s-alto:#e08a55;
+      --s-critico:#dd6f68;
+      --s-bajo-bg:#1a2c22;
+      --s-medio-bg:#2c2618;
+      --s-alto-bg:#2d2119;
+      --s-critico-bg:#2d1c1b;
+      --focus:#5fbdb4;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101a1a;
+    --paper-raised:#172423;
+    --ink:#e9ede8;
+    --ink-soft:#b7c2ba;
+    --ink-mute:#7f8d85;
+    --petrol:#5fbdb4;
+    --petrol-deep:#0c1f1f;
+    --wood:#d3a06a;
+    --wood-soft:#8f5f34;
+    --line:#2a3736;
+    --line-strong:#3c4a47;
+    --s-bajo:#6ab68a;
+    --s-medio:#d3a83f;
+    --s-alto:#e08a55;
+    --s-critico:#dd6f68;
+    --s-bajo-bg:#1a2c22;
+    --s-medio-bg:#2c2618;
+    --s-alto-bg:#2d2119;
+    --s-critico-bg:#2d1c1b;
+    --focus:#5fbdb4;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Archivo",system-ui,sans-serif;
+    line-height:1.5;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  a{color:var(--petrol);}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+  /* ---- Masthead ---- */
+  .masthead{
+    border-bottom:3px solid var(--ink);
+    padding-bottom:1.5rem;
+    margin-bottom:1.75rem;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1.5rem;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--petrol);
+    font-weight:600;
+    margin:0 0 .5rem;
+  }
+  .ot-tag{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--wood);
+    border:1px solid var(--wood);
+    border-radius:2px;
+    padding:.22rem .6rem;
+    margin:0 0 .9rem;
+  }
+  h1{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:clamp(2.2rem,5.5vw,3.4rem);
+    line-height:.94;
+    letter-spacing:.005em;
+    text-transform:uppercase;
+    margin:0;
+    text-wrap:balance;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    font-size:.98rem;
+    color:var(--ink-soft);
+    max-width:34ch;
+    margin:.6rem 0 0;
+  }
+  .masthead-meta{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;
+    color:var(--ink-mute);
+    text-align:right;
+    line-height:1.7;
+  }
+
+  /* ---- Fact strip ---- */
+  .facts{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    margin-bottom:2.75rem;
+  }
+  .fact{
+    background:var(--paper-raised);
+    padding:1rem 1.1rem;
+  }
+  .fact-num{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:2.1rem;
+    line-height:1;
+    color:var(--petrol);
+    font-variant-numeric:tabular-nums;
+  }
+  .fact-num.crit{color:var(--s-critico);}
+  .fact-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-top:.3rem;
+  }
+
+  section{margin-bottom:3.25rem;}
+  h2{
+    font-family:"Big Shoulders Text",sans-serif;
+    font-weight:700;
+    font-size:1.5rem;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    margin:0 0 .3rem;
+    color:var(--ink);
+  }
+  .section-intro{
+    color:var(--ink-soft);
+    max-width:68ch;
+    font-size:.95rem;
+    margin:0 0 1.4rem;
+  }
+
+  /* ---- Scale legend ---- */
+  .scales{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.75rem;
+  }
+  @media (max-width:640px){ .scales{grid-template-columns:1fr;} }
+  .scale-title{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--wood);
+    font-weight:600;
+    margin-bottom:.6rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.4rem;
+  }
+  .scale-row{
+    display:grid;
+    grid-template-columns:1.6rem 1fr;
+    gap:.7rem;
+    padding:.4rem 0;
+    border-bottom:1px dotted var(--line);
+    font-size:.86rem;
+  }
+  .scale-row:last-child{border-bottom:none;}
+  .scale-n{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    color:var(--ink-mute);
+  }
+  .scale-row b{color:var(--ink);}
+
+  .level-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem;
+    margin-top:1.5rem;
+  }
+  .level-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.03em;
+    padding:.32rem .6rem;
+    border-radius:2px;
+  }
+  .level-chip::before{content:"";width:.55rem;height:.55rem;border-radius:50%;}
+  .lvl-bajo{background:var(--s-bajo-bg);color:var(--s-bajo);}
+  .lvl-bajo::before{background:var(--s-bajo);}
+  .lvl-medio{background:var(--s-medio-bg);color:var(--s-medio);}
+  .lvl-medio::before{background:var(--s-medio);}
+  .lvl-alto{background:var(--s-alto-bg);color:var(--s-alto);}
+  .lvl-alto::before{background:var(--s-alto);}
+  .lvl-critico{background:var(--s-critico-bg);color:var(--s-critico);}
+  .lvl-critico::before{background:var(--s-critico);}
+
+  /* ---- Matrix ---- */
+  .matrix-shell{
+    display:grid;
+    grid-template-columns:2.6rem 1fr;
+    gap:.6rem;
+  }
+  .matrix-yaxis{
+    display:grid;
+    grid-template-rows:repeat(5,1fr);
+    grid-template-columns: 1fr;
+    text-align:right;
+  }
+  .matrix-yaxis span{
+    display:flex;align-items:center;justify-content:flex-end;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;color:var(--ink-mute);
+    padding-right:.3rem;
+  }
+  .matrix-main{overflow-x:auto;}
+  .matrix-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(84px,1fr));
+    grid-template-rows:repeat(5,minmax(64px,1fr));
+    gap:2px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    min-width:460px;
+  }
+  .cell{
+    background:var(--paper-raised);
+    padding:.3rem;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:flex-start;
+    gap:.25rem;
+    position:relative;
+  }
+  .cell.z-bajo{background:var(--s-bajo-bg);}
+  .cell.z-medio{background:var(--s-medio-bg);}
+  .cell.z-alto{background:var(--s-alto-bg);}
+  .cell.z-critico{background:var(--s-critico-bg);}
+  .chip{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:.72rem;
+    line-height:1;
+    padding:.32rem .4rem;
+    border-radius:2px;
+    border:1px solid rgba(0,0,0,.12);
+    cursor:pointer;
+    background:var(--paper-raised);
+    color:var(--ink);
+    position:relative;
+  }
+  .chip:hover, .chip:focus-visible{
+    transform:translateY(-1px);
+    box-shadow:0 2px 0 rgba(0,0,0,.18);
+  }
+  .chip[data-lvl="bajo"]{color:var(--s-bajo);border-color:var(--s-bajo);}
+  .chip[data-lvl="medio"]{color:var(--s-medio);border-color:var(--s-medio);}
+  .chip[data-lvl="alto"]{color:var(--s-alto);border-color:var(--s-alto);}
+  .chip[data-lvl="critico"]{color:var(--s-critico);border-color:var(--s-critico);background:var(--s-critico);}
+  .chip[data-lvl="critico"]{color:var(--paper-raised);}
+  .chip .tip{
+    position:absolute;
+    bottom:calc(100% + 6px);
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Archivo",sans-serif;
+    font-weight:400;
+    font-size:.76rem;
+    padding:.4rem .6rem;
+    border-radius:3px;
+    width:max-content;
+    max-width:220px;
+    white-space:normal;
+    text-align:left;
+    line-height:1.35;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .1s ease;
+    z-index:5;
+  }
+  .chip:hover .tip, .chip:focus-visible .tip{opacity:1;}
+  .matrix-xaxis{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:repeat(5,minmax(84px,1fr));
+    min-width:460px;
+    margin-top:.35rem;
+  }
+  .matrix-xaxis span{
+    text-align:center;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    color:var(--ink-mute);
+  }
+  .axis-caption{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:center;
+    margin-top:.15rem;
+  }
+  .axis-caption-y{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    grid-column:1;
+    grid-row:1;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:center;
+    align-self:center;
+  }
+
+  /* ---- Filters ---- */
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-bottom:1.6rem;
+  }
+  .filter-btn{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.74rem;
+    letter-spacing:.03em;
+    padding:.4rem .8rem;
+    border-radius:2px;
+    border:1px solid var(--line-strong);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .filter-btn[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---- Phase groups ---- */
+  .phase{
+    margin-bottom:2.2rem;
+    border-top:2px solid var(--ink);
+    padding-top:1rem;
+  }
+  .phase-head{
+    display:flex;
+    align-items:baseline;
+    gap:.9rem;
+    flex-wrap:wrap;
+    margin-bottom:.3rem;
+  }
+  .phase-letter{
+    font-family:"Big Shoulders Display",sans-serif;
+    font-weight:800;
+    font-size:2.6rem;
+    color:var(--wood);
+    line-height:1;
+  }
+  .phase-name{
+    font-family:"Big Shoulders Text",sans-serif;
+    font-weight:700;
+    font-size:1.2rem;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  .phase-desc{
+    color:var(--ink-soft);
+    font-size:.9rem;
+    max-width:60ch;
+    margin:0 0 1.1rem;
+  }
+
+  /* ---- Risk card ---- */
+  .risk{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-left:4px solid var(--line-strong);
+    padding:1rem 1.15rem;
+    margin-bottom:.7rem;
+    transition:background .15s ease;
+  }
+  .risk[data-lvl="bajo"]{border-left-color:var(--s-bajo);}
+  .risk[data-lvl="medio"]{border-left-color:var(--s-medio);}
+  .risk[data-lvl="alto"]{border-left-color:var(--s-alto);}
+  .risk[data-lvl="critico"]{border-left-color:var(--s-critico);}
+  .risk.pulse{background:var(--s-medio-bg);}
+  .risk.hidden{display:none;}
+
+  .risk-top{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:.6rem .8rem;
+    margin-bottom:.7rem;
+  }
+  .risk-id{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:.78rem;
+    color:var(--ink-mute);
+  }
+  .risk-title{
+    font-family:"Archivo",sans-serif;
+    font-weight:600;
+    font-size:1.02rem;
+    color:var(--ink);
+    flex:1 1 auto;
+    min-width:180px;
+  }
+  .risk-cat{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--wood);
+  }
+  .risk-pi{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.76rem;
+    color:var(--ink-mute);
+    font-variant-numeric:tabular-nums;
+  }
+  .pill{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:.22rem .55rem;
+    border-radius:2px;
+    font-weight:600;
+  }
+  .pill.bajo{background:var(--s-bajo-bg);color:var(--s-bajo);}
+  .pill.medio{background:var(--s-medio-bg);color:var(--s-medio);}
+  .pill.alto{background:var(--s-alto-bg);color:var(--s-alto);}
+  .pill.critico{background:var(--s-critico-bg);color:var(--s-critico);}
+
+  .risk-detail{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.8rem 1.4rem;
+  }
+  @media (max-width:600px){ .risk-detail{grid-template-columns:1fr;} }
+  .risk-field label{
+    display:block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.65rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-bottom:.2rem;
+  }
+  .risk-field p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--ink-soft);
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding-top:1.2rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    color:var(--ink-mute);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .chip, .risk{transition:none;}
+  }
+
+  /* ---- Print ---- */
+  @media print{
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"]{
+      --paper:#ffffff; --paper-raised:#ffffff;
+      --ink:#17211f; --ink-soft:#495650; --ink-mute:#748079;
+      --petrol:#17515c; --wood:#8f5f34;
+      --line:#d7dbd2; --line-strong:#b9c0b4;
+      --s-bajo:#3f7d5c; --s-medio:#a67c1e; --s-alto:#c1622a; --s-critico:#9e3b3b;
+      --s-bajo-bg:#e3ede6; --s-medio-bg:#f3e9d3; --s-alto-bg:#f4ded0; --s-critico-bg:#f2dcda;
+    }
+    @page{ size:A4; margin:14mm 12mm; }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body{ background:#fff; }
+    .wrap{ max-width:100%; padding:0; }
+    .filters{ display:none; }
+    .chip .tip{ display:none; }
+    .matrix-main{ overflow:visible; }
+    .matrix-grid, .matrix-xaxis{ min-width:0; }
+    .phase{ display:block !important; break-inside:avoid-page; }
+    .risk{ display:block !important; break-inside:avoid; }
+    .phase-head, h2{ break-after:avoid; }
+    section{ margin-bottom:1.6rem; }
+  }
+  /* ---- Lectura rápida (capacidad) ---- */
+  .calc{ width:100%; border-collapse:collapse; font-size:.92rem; margin:.4rem 0 1rem; }
+  .calc th, .calc td{ text-align:left; padding:.55rem .6rem; border-bottom:1px solid var(--line); vertical-align:top; }
+  .calc th{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute); font-weight:500; }
+  .calc td.num{ font-family:'IBM Plex Mono',monospace; font-weight:600; white-space:nowrap; }
+  .calc tr.hl td{ background:var(--s-critico-bg); }
+  .calc tr.hl td.num{ color:var(--s-critico); }
+  .actions{ margin:.4rem 0 0; padding-left:1.2rem; }
+  .actions li{ margin:.45rem 0; line-height:1.5; }
+  .note{ font-size:.85rem; color:var(--ink-mute); margin-top:.6rem; }
+  .risk-field.hist p{ color:var(--ink-soft); font-style:italic; }
+  @media (max-width:640px){ .calc{ font-size:.85rem; } .calc th, .calc td{ padding:.45rem .35rem; } }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Plan de producción · Cierre de año 2026</p>
+      <p class="ot-tag">Plan 140 checkouts — Fabricación e instalación Nov–Dic</p>
+      <h1>Bitácora de<br>riesgos</h1>
+      <p class="masthead-sub">Fabricación, control de calidad, despacho e instalación de 140 checkouts entre el 29 de octubre y el 31 de diciembre, en paralelo con la producción en curso (stands y otros proyectos). El máximo histórico es de 66 checkouts instalados en un mes, con preparación previa e información completa. Estrategia: mueble estandarizado en módulos de máximo 80&nbsp;cm, con cubierta a medida.</p>
+    </div>
+    <div class="masthead-meta">
+      BORRADOR v1<br>
+      ACTUALIZADO 29·10·2026
+    </div>
+  </div>
+
+  <div class="facts" id="facts">
+    <div class="fact"><div class="fact-num">140</div><div class="fact-label">Checkouts al 31·12</div></div>
+    <div class="fact"><div class="fact-num crit">~4,5</div><div class="fact-label">Instalaciones por día hábil requeridas (récord: 3,0)</div></div>
+    <div class="fact"><div class="fact-num" id="fact-total">–</div><div class="fact-label">Riesgos identificados</div></div>
+    <div class="fact"><div class="fact-num crit" id="fact-critico">–</div><div class="fact-label">En nivel crítico</div></div>
+  </div>
+
+  <section>
+    <h2>Lectura rápida: carga requerida vs. capacidad demostrada</h2>
+    <p class="section-intro">Antes de los riesgos, el número que los explica. El plazo calendario parece de dos meses, pero la ventana útil es más corta: desde que una OT ingresa a producción hasta que se entrega pasan casi dos semanas (mediana), y la segunda quincena de diciembre es temporada alta en los puntos de venta.</p>
+    <table class="calc">
+      <thead><tr><th>Dato</th><th>Valor</th><th>De dónde sale</th></tr></thead>
+      <tbody>
+        <tr><td>Días hábiles del 29·10 al 31·12</td><td class="num">~44</td><td>Descontando el 8 y el 25 de diciembre</td></tr>
+        <tr><td>Tiempo ingreso → entrega (mediana)</td><td class="num">13 días</td><td>41 checkouts del tablero Producción, sept–oct 2026</td></tr>
+        <tr><td>Checkouts entregados por mes en Monday</td><td class="num">23 · 21</td><td>Septiembre · octubre (tablero Producción, que parte en sept.)</td></tr>
+        <tr><td>Máximo histórico instalado en un mes</td><td class="num">66</td><td>Con preparación previa, solicitudes y levantamientos completos</td></tr>
+        <tr class="hl"><td>Ventana de fabricación útil (si la última instalación es ~23·12)</td><td class="num">~6 semanas</td><td>Último ingreso a producción ≈ 9·12</td></tr>
+        <tr class="hl"><td>Ritmo de fabricación requerido</td><td class="num">~23 / semana</td><td>≈ 100 al mes: 1,5 veces el récord</td></tr>
+        <tr class="hl"><td>Ritmo de instalación requerido</td><td class="num">~4,5 / día</td><td>~31 días hábiles de instalación (9·11 al 23·12) vs. 3,0/día del mes récord</td></tr>
+      </tbody>
+    </table>
+    <p class="section-intro"><b>Qué cambia con la estandarización.</b> Los módulos estándar (vitrina, autoservicio, caja) se pueden fabricar en serie y a stock <i>antes</i> de tener cada solicitud; solo el módulo abierto y la cubierta esperan el levantamiento del local. Eso desacopla gran parte de la fabricación de la llegada de solicitudes y fija las medidas de vidrio. A cambio, aparecen riesgos nuevos: un diseño modular aún no probado, uniones entre módulos, la mezcla de módulos a fabricar y la aceptación del formato. Mientras el estándar no esté prototipado y validado, las calificaciones se mantienen como si no existiera (regla del manual: se califica con los controles que ya funcionan).</p>
+    <p class="section-intro" style="margin-bottom:.3rem"><b>Condiciones para aceptar el plan</b> — las seis mitigaciones que más bajan el riesgo global:</p>
+    <ol class="actions">
+      <li><b>Estándar modular validado primero:</b> prototipo de cada módulo y de una configuración completa (con cubierta a medida) armado y aprobado por Calidad, Implementación y el cliente antes de producir en serie. Ver B5 y B6.</li>
+      <li><b>Compuerta de información:</b> ninguna OT entra a producción sin levantamiento completo (medidas, foto del espacio, punto eléctrico, acceso, contacto del PDV). Ver A2.</li>
+      <li><b>Programa en lotes semanales</b> con número comprometido por semana y revisión cada lunes; el cliente entrega solicitudes con al menos 3 semanas de anticipación a la instalación. Ver A1 y A3.</li>
+      <li><b>Compra anticipada y consolidada de vidrios</b> y materiales críticos para todo el volumen, con proveedor alternativo identificado. Ver B1 y B2.</li>
+      <li><b>Línea dedicada a checkouts</b> (personas y horario definidos) separada de stands, y prioridades de fin de año acordadas por escrito con Comercial. Ver C1.</li>
+      <li><b>Capacidad de instalación asegurada:</b> cuadrillas adicionales o subcontrato, rutas por zona y agendamiento confirmado con el PDV 48 h antes. Ver E1 y E3.</li>
+    </ol>
+    <p class="note">Supuestos por validar: fecha límite real de instalación en diciembre, cuántas solicitudes ya tienen levantamiento y la cantidad de cuadrillas disponibles. Si cambian, se recalculan los ritmos y las calificaciones.</p>
+  </section>
+
+  <section>
+    <h2>Escalas de evaluación</h2>
+    <p class="section-intro">Cada riesgo se califica con probabilidad e impacto de 1 a 5, con los controles que existen hoy. El producto de ambos define el nivel de riesgo y su color en la matriz.</p>
+    <div class="scales">
+      <div>
+        <p class="scale-title">Probabilidad</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Rara</b> — no se ha presentado en proyectos similares</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Improbable</b> — solo en circunstancias excepcionales</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Posible</b> — puede ocurrir en algún punto del plan</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Probable</b> — esperable en la mayoría de casos similares</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Casi certeza</b> — ocurre salvo control activo</span></div>
+      </div>
+      <div>
+        <p class="scale-title">Impacto</p>
+        <div class="scale-row"><span class="scale-n">1</span><span><b>Menor</b> — retoque, sin costo ni atraso</span></div>
+        <div class="scale-row"><span class="scale-n">2</span><span><b>Bajo</b> — reproceso puntual, atraso de horas</span></div>
+        <div class="scale-row"><span class="scale-n">3</span><span><b>Moderado</b> — atraso de 1–2 días, costo medio</span></div>
+        <div class="scale-row"><span class="scale-n">4</span><span><b>Mayor</b> — compromete la meta de 140 o un lote completo</span></div>
+        <div class="scale-row"><span class="scale-n">5</span><span><b>Crítico</b> — riesgo a personas o pérdida total</span></div>
+      </div>
+    </div>
+    <div class="level-legend">
+      <span class="level-chip lvl-bajo">Bajo · 1–4 · monitorear</span>
+      <span class="level-chip lvl-medio">Medio · 5–9 · mitigar en plazo normal</span>
+      <span class="level-chip lvl-alto">Alto · 10–14 · mitigar antes de avanzar</span>
+      <span class="level-chip lvl-critico">Crítico · 15–25 · no se avanza sin resolver</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Matriz probabilidad × impacto</h2>
+    <p class="section-intro">Cada celda ubica los riesgos según su calificación. Toca o pasa el cursor sobre un código para ver el riesgo; toca de nuevo para saltar a su ficha completa más abajo.</p>
+    <div class="matrix-shell">
+      <div class="axis-caption-y">Impacto ↑</div>
+      <div class="matrix-main">
+        <div class="matrix-grid" id="matrix"></div>
+        <div class="matrix-xaxis" id="matrix-x"></div>
+        <p class="axis-caption">Probabilidad →</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Registro detallado</h2>
+    <p class="section-intro"><span id="reg-count">–</span> riesgos agrupados por fase del plan, incluida la estrategia de estandarización modular. Los que ya ocurrieron en 2026 llevan su antecedente de Monday (SNC y Retrabajos). Filtra por nivel para priorizar la revisión.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por nivel de riesgo">
+      <button class="filter-btn" data-filter="todos" aria-pressed="true">Todos</button>
+      <button class="filter-btn" data-filter="critico" aria-pressed="false">Crítico</button>
+      <button class="filter-btn" data-filter="alto" aria-pressed="false">Alto</button>
+      <button class="filter-btn" data-filter="medio" aria-pressed="false">Medio</button>
+      <button class="filter-btn" data-filter="bajo" aria-pressed="false">Bajo</button>
+    </div>
+    <div id="phases"></div>
+  </section>
+
+  <footer>
+    <span>Plan 140 checkouts · Cierre de año 2026 — Control de Calidad</span>
+    <span>Matriz P×I · borrador para revisión con Producción, Comercial e Implementación</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var PHASES = {
+    A: { nombre:'Planificación, solicitudes y levantamiento', desc:'Recepción de las solicitudes del cliente, levantamiento de cada punto de venta, programación por lotes y compromiso de fechas.' },
+    B: { nombre:'Estandarización, diseño industrial y abastecimiento', desc:'Definición de los módulos estándar (máx. 80 cm), fichas y planos, solicitud de vidrios, compra de materiales y coordinación con proveedores externos.' },
+    C: { nombre:'Fabricación en taller', desc:'Madera, láser, acrílico, impresión y emplaque, electricidad y metalurgia, compartiendo capacidad con stands y otros proyectos en curso.' },
+    D: { nombre:'Control de calidad, embalaje y bodega', desc:'Inspección final, embalaje para traslado, almacenamiento de terminados e identificación por punto de venta.' },
+    E: { nombre:'Despacho e instalación en punto de venta', desc:'Rutas, cuadrillas, traslado a Santiago y regiones, instalación y recepción conforme en cada local.' },
+    F: { nombre:'Gestión, costos y cierre', desc:'Seguimiento en Monday, control de costos, postventa y garantías posteriores a la instalación.' }
+  };
+
+  var RISKS = [
+    /* ---------- A ---------- */
+    {id:'A1', fase:'A', cat:'Cronograma', riesgo:'No alcanzar las 140 instalaciones al 31·12', p:5, i:4,
+      causa:'El plan exige fabricar ~23 checkouts por semana e instalar ~4,5 por día hábil, sobre el máximo demostrado (66 en un mes, con preparación previa), y en paralelo con stands y otros proyectos.',
+      consecuencia:'Incumplimiento del compromiso con el cliente, unidades que pasan a enero y presión por acelerar a costa de la calidad.',
+      mitigacion:'Programa por lotes semanales con número comprometido por semana; revisión cada lunes de lo real contra lo planificado; acordar con el cliente un piso firme y un escalonado (ej. 100 firmes + 40 condicionadas a capacidad) y un corte de recepción de solicitudes.',
+      resp:'Gerencia de operaciones / Jefe de producción'},
+    {id:'A2', fase:'A', cat:'Información', riesgo:'Solicitudes y levantamientos incompletos', p:4, i:4,
+      causa:'El récord de 66 se logró con información completa por adelantado; en este plan las solicitudes llegan sobre la marcha y sin medidas, fotos del espacio, punto eléctrico ni datos de acceso confirmados.',
+      consecuencia:'Muebles que no calzan en el local, re-diseño, retrabajos y visitas fallidas que consumen cuadrillas.',
+      hist:'SNC OTE-00519 Padre Mateo: solicitud de vidrios mal realizada ($312.480). SNC OTE-00171: gráficas sin master no pudieron ser evaluadas por Calidad.',
+      mitigacion:'Compuerta: ninguna OT entra a producción sin ficha de levantamiento completa (medidas, fotos, punto eléctrico, acceso, horario y contacto del PDV). Plantilla única de levantamiento y responsable de validarla antes de pasar a Diseño industrial.',
+      resp:'Comercial / Diseño industrial'},
+    {id:'A3', fase:'A', cat:'Cronograma', riesgo:'Solicitudes del cliente concentradas a fin de período', p:3, i:4,
+      causa:'El cliente libera las solicitudes en lotes y una parte importante puede llegar a mediados de diciembre, cuando ya no hay ventana de fabricación.',
+      consecuencia:'Picos imposibles de absorber y caída del ritmo en las primeras semanas por falta de OT listas.',
+      mitigacion:'Acordar con el cliente un calendario de liberación (ej. 35 por semana hasta el 1·12) y una fecha de corte; lo que llegue después queda para enero por escrito. Con el estándar modular, fabricar vitrinas, autoservicios y cajas a stock según la mezcla prevista, de modo que solo el módulo abierto y la cubierta dependan de la solicitud.',
+      resp:'Comercial'},
+    {id:'A4', fase:'A', cat:'Alcance', riesgo:'Variantes fuera del estándar y cambios a última hora', p:3, i:3,
+      causa:'Históricamente coexisten check out estándar, check out grande, extensiones y módulos con cooler; si se aceptan excepciones al estándar modular, cada una interrumpe la producción en serie.',
+      consecuencia:'Pérdida del efecto de escala, errores de armado entre variantes y retrabajos.',
+      mitigacion:'El estándar de módulos es la mitigación principal: toda solicitud se resuelve con combinación de módulos estándar + módulo abierto + cubierta a medida. Las excepciones requieren aprobación de Gerencia de operaciones y salen del plan 140; todo cambio posterior a la liberación pasa por Diseño industrial con nueva fecha.',
+      resp:'Diseño industrial / Comercial'},
+
+    /* ---------- B ---------- */
+    {id:'B1', fase:'B', cat:'Proveedores', riesgo:'Vidrios atrasados, mal dimensionados o rotos', p:4, i:4,
+      causa:'Dependencia de un proveedor externo con plazos propios, solicitud por OT y alta exposición a quiebre en traslado.',
+      consecuencia:'Muebles detenidos en planta o instalados con acrílico provisorio, segunda visita al local y costo de reposición.',
+      hist:'Es la no conformidad más repetida de 2026: Pucón-Villarrica, Antofagasta Lastenia, Cruzat, Jorge Riquelme, Palco, La Lira (proveedor atrasado, salió con acrílico provisorio) y Padre Mateo.',
+      mitigacion:'Con la vitrina estándar el vidrio queda en una o dos medidas fijas: compra consolidada para todo el volumen, stock de seguridad de las medidas más usadas, segundo proveedor cotizado y validación cruzada de la solicitud (Diseño industrial + Calidad) antes de enviarla.',
+      resp:'Adquisiciones / Diseño industrial'},
+    {id:'B2', fase:'B', cat:'Proveedores', riesgo:'Quiebre de stock de materiales y cierre de proveedores por fiestas', p:3, i:4,
+      causa:'Compra al ritmo de cada OT, alta demanda de fin de año y proveedores que cierran o reducen despacho la última quincena de diciembre.',
+      consecuencia:'Producción detenida por falta de material (motivo de bloqueo «Falta material») y atraso de lotes completos.',
+      mitigacion:'Calcular el consumo total de los 140 (melamina, MDF, tapacanto, acrílico, vinil, LED, fuentes, herrajes) y comprar por adelantado lo crítico; confirmar con cada proveedor su calendario de fin de año.',
+      resp:'Adquisiciones / Bodega'},
+    {id:'B3', fase:'B', cat:'Diseño', riesgo:'Error de plano o ficha replicado en serie', p:3, i:4,
+      causa:'Con producción en serie, un error en la ficha del modelo se repite en todo el lote antes de detectarse.',
+      consecuencia:'Retrabajo masivo en planta o, peor, en terreno.',
+      hist:'Retrabajos OTE-00399 Rupanco (faltaban ranuras para el vidrio en cubierta, laterales y piso) y OTE-00436 Villarrica (módulo cooler al revés).',
+      mitigacion:'Ficha técnica congelada por módulo estándar, primer artículo de cada lote inspeccionado y aprobado por Calidad antes de cortar el resto.',
+      resp:'Diseño industrial / Control de calidad'},
+    {id:'B4', fase:'B', cat:'Gráfica', riesgo:'Arte o material de gráfica equivocado', p:3, i:3,
+      causa:'Artes liberados sin verificación contra la solicitud y presión por despachar.',
+      consecuencia:'Reimpresión, reinstalación y posible reclamo del cliente.',
+      hist:'Retrabajo OTE-00401: se imprimió en efecto espejo y debía ser vinil super strong ($76.000). SNC OTE-00630: toldo con logo de otra marca, visita fallida ($264.000).',
+      mitigacion:'Checklist de liberación de arte (marca, logo, leyendas, material, medida) y master firmado por Agencia para que Calidad pueda evaluar.',
+      resp:'Agencia / Control de calidad'},
+    {id:'B5', fase:'B', cat:'Diseño', riesgo:'Estándar modular nuevo sin prototipo validado', p:3, i:4,
+      causa:'Los módulos de máximo 80 cm se diseñan y se llevan a serie con poco plazo, sin haber armado e instalado una configuración completa.',
+      consecuencia:'Un defecto de diseño (rigidez, medidas, encaje de vidrio o de cooler) se replica en decenas de módulos.',
+      mitigacion:'Prototipo de cada módulo y de una configuración completa con cubierta a medida, armado en planta e instalado en un local piloto; aprobación de Calidad, Implementación y el cliente antes de liberar la serie.',
+      resp:'Diseño industrial / Control de calidad'},
+    {id:'B6', fase:'B', cat:'Cliente', riesgo:'El cliente o el local no acepta el formato modular', p:2, i:4,
+      causa:'El mueble modular se ve distinto al checkout continuo que el cliente conoce (juntas visibles, módulo abierto de relleno).',
+      consecuencia:'Rediseño a mitad del plan y pérdida del beneficio de la estandarización.',
+      mitigacion:'Presentar render y prototipo al cliente para validación formal antes de producir; la cubierta continua a medida y la gráfica deben dar unidad visual al conjunto.',
+      resp:'Comercial / Diseño industrial'},
+
+    /* ---------- C ---------- */
+    {id:'C1', fase:'C', cat:'Capacidad', riesgo:'Competencia por las mismas áreas con stands y proyectos de fin de año', p:4, i:4,
+      causa:'Madera, láser, acrílico y electricidad son las mismas áreas que producen stands, muebles de retail y reparaciones, que también se concentran a fin de año.',
+      consecuencia:'Los checkouts o los otros proyectos quedan sistemáticamente detrás, con atrasos en ambos frentes.',
+      mitigacion:'Línea dedicada a checkouts (personas y horario fijos); prioridades de fin de año acordadas por escrito con Comercial; evaluar externalizar cortes CNC o piezas estándar.',
+      resp:'Jefe de producción / Gerencia de operaciones'},
+    {id:'C2', fase:'C', cat:'Personas', riesgo:'Fatiga por horas extra sostenidas', p:4, i:3,
+      causa:'Ocho semanas seguidas de sobretiempo para cubrir el ritmo requerido.',
+      consecuencia:'Más errores de armado, más retrabajos, ausentismo y riesgo de accidente.',
+      mitigacion:'Turnos o refuerzo de personal en vez de extender jornada indefinidamente; límite semanal de HH extra por persona y registro del motivo en Monday.',
+      resp:'Jefe de producción / Jefes de área'},
+    {id:'C3', fase:'C', cat:'Personas', riesgo:'Ausentismo, vacaciones de diciembre y personal nuevo sin inducción', p:3, i:4,
+      causa:'Vacaciones de fin de año ya comprometidas y contratación temporal para reforzar.',
+      consecuencia:'Caída de la capacidad real justo en las semanas de mayor carga, y errores de personal no capacitado.',
+      mitigacion:'Calendario de vacaciones revisado contra el plan; inducción corta por modelo con el instructivo del checkout y un colaborador experimentado por estación.',
+      resp:'Jefe de producción / RR.HH.'},
+    {id:'C4', fase:'C', cat:'Calidad', riesgo:'Electricidad incompleta (iluminación y conexión a cooler)', p:3, i:3,
+      causa:'Conexiones que quedan para el final del armado y se omiten con la presión de despacho.',
+      consecuencia:'Mueble que no funciona en el local y segunda visita.',
+      hist:'Retrabajos OTE-00422 Freire (electricidad incompleta) y OTE-00436 Villarrica (faltan conexiones a cooler).',
+      mitigacion:'Prueba eléctrica obligatoria encendida en planta (iluminación y enchufe de cooler) como ítem del checklist de Calidad. En el estándar modular, definir un conector eléctrico único entre módulos para que la unión en terreno sea enchufar y no cablear.',
+      resp:'Electricidad / Control de calidad'},
+    {id:'C5', fase:'C', cat:'Equipos', riesgo:'Falla de CNC, láser o plotter sin respaldo', p:2, i:4,
+      causa:'Equipos únicos operando más horas de lo habitual.',
+      consecuencia:'Línea detenida por días mientras se repara.',
+      mitigacion:'Mantención preventiva antes de iniciar, repuestos críticos en stock y proveedor de corte externo identificado como respaldo.',
+      resp:'Jefe de producción / Mantención'},
+    {id:'C6', fase:'C', cat:'Estructural', riesgo:'Uniones entre módulos y ajuste de la cubierta a medida', p:3, i:3,
+      causa:'Al pasar de mueble continuo a módulos, la rigidez depende de la unión entre módulos y de que la cubierta a medida calce sobre módulos de serie con sus tolerancias.',
+      consecuencia:'Desniveles, juntas abiertas, cubierta que no apoya o mueble que se mueve, detectados recién en el local.',
+      mitigacion:'Sistema de unión definido (herraje de unión entre módulos y niveladores), tolerancias de fabricación por módulo y cubierta cortada con la medida real de la combinación; armado de prueba de la configuración completa en planta antes de embalar.',
+      resp:'Diseño industrial / Madera'},
+    {id:'C7', fase:'C', cat:'Capacidad', riesgo:'Módulo abierto y cubierta a medida como nuevo cuello de botella', p:3, i:3,
+      causa:'Son las únicas piezas que dependen del levantamiento de cada local y no se pueden adelantar a stock.',
+      consecuencia:'Los módulos estándar están listos pero el local espera por su módulo abierto o su cubierta.',
+      mitigacion:'Celda dedicada a piezas a medida que trabaja con las medidas validadas del levantamiento; despiece parametrizado del módulo abierto y de la cubierta para cortar rápido en CNC.',
+      resp:'Jefe de producción / Diseño industrial'},
+
+    /* ---------- D ---------- */
+    {id:'D1', fase:'D', cat:'Calidad', riesgo:'Control de calidad saltado o reducido por presión de despacho', p:3, i:4,
+      causa:'Con más volumen, Calidad se vuelve cuello de botella y se libera sin inspección completa.',
+      consecuencia:'Defectos que se descubren en el local, donde corregirlos cuesta varias veces más.',
+      mitigacion:'Checklist de checkout aplicado al 100 % de las unidades, inspección en proceso por lote (no solo al final) y apoyo de un inspector adicional en las semanas pico.',
+      resp:'Control de calidad'},
+    {id:'D2', fase:'D', cat:'Embalaje', riesgo:'Daño en traslado (vidrios, cantos, acrílicos)', p:3, i:3,
+      causa:'Embalaje hecho a la rápida y carga mixta en el camión.',
+      consecuencia:'Piezas dañadas al llegar y reposición urgente.',
+      mitigacion:'Estándar de embalaje por modelo (esquineros, film, vidrios aparte) y registro fotográfico al cargar.',
+      resp:'Embalaje / Logística'},
+    {id:'D3', fase:'D', cat:'Bodega', riesgo:'Acumulación de muebles terminados sin espacio', p:3, i:3,
+      causa:'Si la instalación va más lento que la fabricación, los terminados se acumulan en planta.',
+      consecuencia:'Bodega saturada, golpes por manipulación y pasillos bloqueados.',
+      mitigacion:'Sincronizar el programa de fabricación con la agenda de instalación (fabricar para la semana siguiente, no por adelantado) y reservar un área de terminados.',
+      resp:'Bodega / Jefe de producción'},
+    {id:'D4', fase:'D', cat:'Trazabilidad', riesgo:'Combinación de módulos o piezas despachada al local equivocado', p:2, i:4,
+      causa:'Con módulos estándar intercambiables, lo único que distingue cada local es su combinación, su módulo abierto, su cubierta y su gráfica.',
+      consecuencia:'Instalación fallida en dos locales a la vez.',
+      mitigacion:'Kit por local armado y verificado contra la configuración de la OT (lista de módulos + módulo abierto + cubierta + gráfica); etiqueta por bulto con OT, ID del PDV y dirección; verificación de etiquetas contra la guía al cargar.',
+      resp:'Embalaje / Logística'},
+    {id:'D5', fase:'D', cat:'Planificación', riesgo:'Desbalance entre el stock de módulos y la mezcla real que piden los locales', p:3, i:3,
+      causa:'Al fabricar a stock se supone una proporción de vitrinas, autoservicios y cajas que puede no coincidir con lo que pide cada local.',
+      consecuencia:'Exceso de un módulo en bodega y falta de otro, con locales esperando.',
+      mitigacion:'Estimar la mezcla con las solicitudes ya recibidas y los checkouts de 2026; producir a stock por tandas cortas y ajustar la mezcla cada semana con las nuevas solicitudes.',
+      resp:'Jefe de producción / Comercial'},
+
+    /* ---------- E ---------- */
+    {id:'E1', fase:'E', cat:'Capacidad', riesgo:'Cuadrillas y vehículos insuficientes para ~4,5 instalaciones diarias', p:4, i:4,
+      causa:'La capacidad de instalación se dimensionó para ~3 por día en el mejor mes, y también atiende retiros, despachos y reparaciones.',
+      consecuencia:'Terminados detenidos en bodega y meta de instalación incumplida aunque la fabricación cumpla.',
+      mitigacion:'Calcular cuadrillas necesarias por zona y semana; sumar cuadrillas o subcontratar instalación con supervisión propia; arrendar vehículo adicional en las semanas pico.',
+      resp:'Jefe de implementación / Logística'},
+    {id:'E2', fase:'E', cat:'Logística', riesgo:'Instalaciones en regiones alejadas', p:3, i:3,
+      causa:'Parte de los locales está en regiones (en sept–oct hubo checkouts en Antofagasta, Temuco, Osorno, Puerto Montt, Villarrica y Arauco).',
+      consecuencia:'Días de cuadrilla en ruta, viáticos y menos instalaciones por día.',
+      mitigacion:'Agrupar por zona y hacer giras regionales planificadas; evaluar instaladores locales para zonas extremas.',
+      resp:'Logística'},
+    {id:'E3', fase:'E', cat:'Terreno', riesgo:'Visita fallida: local cerrado, sin punto eléctrico o espacio distinto', p:4, i:3,
+      causa:'Agenda no confirmada con el dueño del local y condiciones del sitio que cambian desde el levantamiento.',
+      consecuencia:'Cuadrilla que vuelve sin instalar y pierde el día.',
+      hist:'Retrabajo OTE-00630: visita fallida, 3 personas por 4 horas más traslado y viáticos ($172.000).',
+      mitigacion:'Confirmación telefónica con el PDV 48 h antes (horario, punto eléctrico, espacio libre); local de reemplazo en la misma ruta para no perder el día.',
+      resp:'Jefe de implementación'},
+    {id:'E4', fase:'E', cat:'Cliente / PDV', riesgo:'Restricción para instalar en temporada alta de diciembre', p:3, i:4,
+      causa:'Los locales priorizan la venta navideña y pueden negarse a intervenir el sector de caja.',
+      consecuencia:'Instalaciones postergadas a enero aunque el mueble esté listo.',
+      mitigacion:'Cargar la mayor parte del volumen en noviembre; confirmar con el cliente la fecha límite real de instalación y horarios permitidos (apertura o cierre).',
+      resp:'Comercial / Jefe de implementación'},
+    {id:'E5', fase:'E', cat:'Seguridad', riesgo:'Accidente de la cuadrilla en instalación o en ruta', p:2, i:5,
+      causa:'Manipulación de vidrio y muebles pesados, jornadas largas y muchos kilómetros de conducción.',
+      consecuencia:'Lesión de un trabajador y detención de la cuadrilla.',
+      mitigacion:'EPP completo (guantes anticorte, calzado), manipulación de vidrios entre dos personas, límite de horas de conducción y descanso entre giras.',
+      resp:'Jefe de implementación / Prevención de riesgos'},
+
+    /* ---------- F ---------- */
+    {id:'F1', fase:'F', cat:'Gestión', riesgo:'Monday desactualizado: los atrasos se detectan tarde', p:3, i:3,
+      causa:'Con más carga, los estados, motivos de bloqueo y HH extra dejan de registrarse a tiempo.',
+      consecuencia:'Se decide con información vieja y los desvíos aparecen cuando ya no hay margen.',
+      mitigacion:'Tablero o vista dedicada al plan 140 con avance semanal (ingresados, fabricados, aprobados, instalados) y responsable de actualizarlo a diario.',
+      resp:'Jefe de producción / Control de calidad'},
+    {id:'F2', fase:'F', cat:'Costo', riesgo:'Sobrecosto por HH extra, retrabajos, fletes urgentes y visitas fallidas', p:3, i:3,
+      causa:'Cada atajo para cumplir el plazo tiene un costo que no está en la cotización.',
+      consecuencia:'Margen del proyecto erosionado.',
+      mitigacion:'Seguimiento semanal de costo de no calidad (tableros Retrabajos y SNC) y de HH extra contra el presupuesto del plan.',
+      resp:'Gerencia de operaciones / Finanzas'},
+    {id:'F3', fase:'F', cat:'Postventa', riesgo:'Reclamos y garantías concentrados en enero', p:2, i:3,
+      causa:'Muchas instalaciones en pocas semanas generan un volumen de ajustes posteriores.',
+      consecuencia:'Cuadrillas comprometidas en postventa justo al reiniciar la producción normal.',
+      mitigacion:'Acta de recepción conforme firmada por el PDV con fotos, y cupo de postventa reservado en la planificación de enero.',
+      resp:'Jefe de implementación / Control de calidad'},
+    {id:'F4', fase:'F', cat:'Registro', riesgo:'Confusión de ID de PDV entre OT similares', p:2, i:2,
+      causa:'Nombres de OT con direcciones parecidas o con errores de digitación.',
+      consecuencia:'Reportes y facturación cruzados entre locales.',
+      mitigacion:'Formato fijo de nombre de OT (OT / ID PDV / dirección / comuna) y revisión de duplicados al crear.',
+      resp:'Comercial'}
+  ];
+
+  function level(score){
+    if(score>=15) return 'critico';
+    if(score>=10) return 'alto';
+    if(score>=5) return 'medio';
+    return 'bajo';
+  }
+  var LABEL = {bajo:'Bajo', medio:'Medio', alto:'Alto', critico:'Crítico'};
+
+  RISKS.forEach(function(r){ r.score = r.p*r.i; r.lvl = level(r.score); });
+
+  document.getElementById('fact-total').textContent = RISKS.length;
+  document.getElementById('reg-count').textContent = RISKS.length;
+  document.getElementById('fact-critico').textContent = RISKS.filter(function(r){return r.lvl==='critico';}).length;
+
+  var grid = document.getElementById('matrix');
+  for(var irow=5; irow>=1; irow--){
+    for(var pcol=1; pcol<=5; pcol++){
+      var cellRisks = RISKS.filter(function(r){return r.i===irow && r.p===pcol;});
+      var cellLvl = level(pcol*irow);
+      var cell = document.createElement('div');
+      cell.className = 'cell z-'+cellLvl;
+      cellRisks.forEach(function(r){
+        var chip = document.createElement('button');
+        chip.className = 'chip';
+        chip.type = 'button';
+        chip.setAttribute('data-lvl', r.lvl);
+        chip.setAttribute('data-target', r.id);
+        chip.innerHTML = r.id + '<span class="tip">'+r.riesgo+'</span>';
+        chip.addEventListener('click', function(){
+          var id = this.getAttribute('data-target');
+          var card = document.querySelector('[data-card="'+id+'"]');
+          if(card){
+            card.scrollIntoView({behavior:'smooth', block:'center'});
+            card.classList.add('pulse');
+            setTimeout(function(){ card.classList.remove('pulse'); }, 1400);
+          }
+        });
+        cell.appendChild(chip);
+      });
+      grid.appendChild(cell);
+    }
+  }
+  var xaxis = document.getElementById('matrix-x');
+  for(var x=1;x<=5;x++){
+    var s = document.createElement('span');
+    s.textContent = x;
+    xaxis.appendChild(s);
+  }
+
+  var phasesEl = document.getElementById('phases');
+  Object.keys(PHASES).forEach(function(key){
+    var meta = PHASES[key];
+    var group = RISKS.filter(function(r){return r.fase===key;}).sort(function(a,b){return b.score-a.score;});
+    var phaseDiv = document.createElement('div');
+    phaseDiv.className = 'phase';
+    phaseDiv.innerHTML =
+      '<div class="phase-head"><span class="phase-letter">'+key+'</span><span class="phase-name">'+meta.nombre+'</span></div>'+
+      '<p class="phase-desc">'+meta.desc+'</p>';
+    group.forEach(function(r){
+      var card = document.createElement('article');
+      card.className = 'risk';
+      card.setAttribute('data-lvl', r.lvl);
+      card.setAttribute('data-card', r.id);
+      card.innerHTML =
+        '<div class="risk-top">'+
+          '<span class="risk-id">'+r.id+'</span>'+
+          '<span class="risk-title">'+r.riesgo+'</span>'+
+          '<span class="risk-cat">'+r.cat+'</span>'+
+          '<span class="pill '+r.lvl+'">'+LABEL[r.lvl]+'</span>'+
+          '<span class="risk-pi">P'+r.p+' · I'+r.i+' · '+r.score+'</span>'+
+        '</div>'+
+        '<div class="risk-detail">'+
+          '<div class="risk-field"><label>Causa</label><p>'+r.causa+'</p></div>'+
+          '<div class="risk-field"><label>Consecuencia</label><p>'+r.consecuencia+'</p></div>'+
+          (r.hist ? '<div class="risk-field hist"><label>Ya ocurrió (Monday 2026)</label><p>'+r.hist+'</p></div>' : '')+
+          '<div class="risk-field"><label>Mitigación</label><p>'+r.mitigacion+'</p></div>'+
+          '<div class="risk-field"><label>Responsable</label><p>'+r.resp+'</p></div>'+
+        '</div>';
+      phaseDiv.appendChild(card);
+    });
+    phasesEl.appendChild(phaseDiv);
+  });
+
+  var buttons = document.querySelectorAll('.filter-btn');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      this.setAttribute('aria-pressed','true');
+      var f = this.getAttribute('data-filter');
+      document.querySelectorAll('.risk').forEach(function(card){
+        var show = (f==='todos') || (card.getAttribute('data-lvl')===f);
+        card.classList.toggle('hidden', !show);
+      });
+      document.querySelectorAll('.phase').forEach(function(ph){
+        var anyVisible = ph.querySelectorAll('.risk:not(.hidden)').length>0;
+        ph.style.display = anyVisible ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
